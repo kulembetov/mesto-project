@@ -9,7 +9,7 @@ import {
 
 // Создание карточек
 
-function createCard(link, title) {
+const createCard = (link, title) => {
   const templateCard = listCard.querySelector('#photo-grid-template').content;
   const cardsClone = templateCard
     .querySelector('.photo-grid__item')
@@ -43,7 +43,7 @@ function createCard(link, title) {
 
 // Добавление в DOM
 
-function addImage() {
+const addImage = () => {
   initialCards.forEach(function (item) {
     listCard.append(createCard(item.link, item.name));
   });

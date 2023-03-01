@@ -7,25 +7,25 @@ import {
 
 // Универсальное открытие и закрытие попапа при нажатии на крестик, ESC, оверлей
 
-function openPopup(popup) {
+const openPopup = (popup) => {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupEsc);
   popup.addEventListener('mousedown', closePopupMousedown);
 }
 
-function closePopup(popup) {
+const closePopup = (popup) => {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupEsc);
   popup.removeEventListener('mousedown', closePopupMousedown);
 }
 
-function closePopupEsc(evt) {
+const closePopupEsc = (evt) => {
   if (evt.key === 'Escape') {
     closePopup(document.querySelector('.popup_opened'));
   }
 }
 
-function closePopupMousedown(evt) {
+const closePopupMousedown = (evt) => {
   if (evt.target.classList.contains('popup_opened')) {
     closePopup(evt.target);
   }
@@ -33,11 +33,11 @@ function closePopupMousedown(evt) {
 
 // Создание попапа с открытым изображанием
 
-function createPopupZoomImage(link, title) {
-  openPopup(popupImageZoom);
+const createPopupZoomImage = (link, title) => {
   imageZoom.src = link;
   imageZoom.alt = title;
   captionZoom.textContent = title;
+  openPopup(popupImageZoom);
 }
 
 // Нахождение попапа, внутри которого находится крести и его закрытие
