@@ -1,6 +1,6 @@
-import "../src/index.css";
-import { enableValidation } from "./components/validate.js";
-import { openPopup, closePopup } from "./components/modal.js";
+import '../src/index.css';
+import { enableValidation } from './components/validate.js';
+import { openPopup, closePopup } from './components/modal.js';
 import {
   settings,
   popupProfile,
@@ -21,13 +21,13 @@ import {
   imageLinkInput,
   avatarLinkInput,
   listCard,
-} from "./components/variables.js";
+} from './components/variables.js';
 
 import { createCard } from './components/card.js';
 
 // Обработчик формы с добавлением информации в профиль
 
-function handleProfileForm(evt) {
+const handleProfileForm = (evt) => {
   evt.preventDefault();
   profileName.textContent = nameInput.value;
   profileInfo.textContent = infoInput.value;
@@ -36,7 +36,7 @@ function handleProfileForm(evt) {
 
 // Обработчик формы с добавлением картинок
 
-function handleImageForm(evt) {
+const handleImageForm = (evt) => {
   evt.preventDefault();
   const title = titleInput.value;
   const link = imageLinkInput.value;
@@ -47,7 +47,7 @@ function handleImageForm(evt) {
 
 // Обработчик формы с изменением изображения пользователя
 
-function handleAvatarForm(evt) {
+const handleAvatarForm = (evt) => {
   evt.preventDefault();
   const link = avatarLinkInput.value;
   profileAvatar.src = link;
@@ -58,15 +58,15 @@ function handleAvatarForm(evt) {
 // Нахождение попапа, внутри которого находится крестик и его закрытие
 
 buttonCloseList.forEach(function (button) {
-  const popup = button.closest(".popup");
-  button.addEventListener("click", function () {
+  const popup = button.closest('.popup');
+  button.addEventListener('click', function () {
     closePopup(popup);
   });
 });
 
 // Открытие попапа с изменением информации в профиле
 
-profileButtonEdit.addEventListener("click", function () {
+profileButtonEdit.addEventListener('click', () => {
   nameInput.value = profileName.textContent;
   infoInput.value = profileInfo.textContent;
   openPopup(popupProfile);
@@ -74,27 +74,27 @@ profileButtonEdit.addEventListener("click", function () {
 
 // Открытие попапа с добавлением картинок
 
-profileButtonAdd.addEventListener("click", function () {
+profileButtonAdd.addEventListener('click', () => {
   openPopup(popupImage);
 });
 
 // Открытие попапа с изменением изображения профиля
 
-profileAvatar.addEventListener("click", function () {
+profileAvatar.addEventListener('click', () => {
   openPopup(popupAvatar);
 });
 
 // Отправка формы редактирования профиля
 
-profileForm.addEventListener("submit", handleProfileForm);
+profileForm.addEventListener('submit', handleProfileForm);
 
 // Отправка формы добавления изображения
 
-imageForm.addEventListener("submit", handleImageForm);
+imageForm.addEventListener('submit', handleImageForm);
 
 // Отправка формы изменения изображения профиля
 
-avatarForm.addEventListener("submit", handleAvatarForm);
+avatarForm.addEventListener('submit', handleAvatarForm);
 
 // Валидация форм
 
