@@ -1,5 +1,5 @@
 ## Название проектной работы
-[Место](https://kulembetov.github.io/mesto)
+[Место](https://kulembetov.github.io/mesto-project)
 
 ## Описание
 Одностраничный сайт, был свёрстан по макету из Figma и адаптирован под различные устройства (320px и 1280px). С возможностью просматривать фотографии различных мест и открывать их, добавлять свои, ставить лайки понравившимся, изменять информацию и изображение профиля. Сделан в рамках учёбной деятельности в [Яндекс.Практикуме](https://practicum.yandex.ru) на факультете ["Веб-разработчик плюс"](https://practicum.yandex.ru/web-plus).
@@ -10,7 +10,8 @@
 
 ## Чеклисты
 * [Чеклист №1](https://code.s3.yandex.net/web-developer/checklists-pdf/web-plus/checklist-3.pdf)
-* [Чеклист №2](https://code.s3.yandex.net/web-developer/checklists-pdf/web-plus/checklist-9.pdf)
+* [Чеклист №2](https://code.s3.yandex.net/web-developer/checklists-pdf/web-plus/checklist-8.pdf)
+* [Чеклист №3](https://code.s3.yandex.net/web-developer/checklists-pdf/web-plus/checklist-9.pdf)
 
 ## Стек технологий
 * HTML5

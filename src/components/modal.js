@@ -34,10 +34,10 @@ function closePopupMousedown(evt) {
 // Создание попапа с открытым изображанием
 
 function createPopupZoomImage(link, title) {
-  openPopup(popupImageZoom);
   imageZoom.src = link;
   imageZoom.alt = title;
   captionZoom.textContent = title;
+  openPopup(popupImageZoom);
 }
 
 // Нахождение попапа, внутри которого находится крести и его закрытие
