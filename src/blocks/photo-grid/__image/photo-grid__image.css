@@ -1,0 +1,13 @@
+.photo-grid__image {
+  width: 282px;
+  height: 282px;
+  display: block;
+  object-fit: cover;
+  border-radius: 10px 10px 0px 0px;
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+}
+
+.photo-grid__image:hover {
+  opacity: .95;
+}

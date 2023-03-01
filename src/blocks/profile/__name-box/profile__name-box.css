@@ -1,0 +1,12 @@
+.profile__name-box {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+@media screen and (max-width: 1024px) {
+  .profile__name-box  {
+    gap: 10px;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,19 @@
+.popup__input:focus + .popup__placeholder,
+.popup__input:valid + .popup__placeholder {
+  font-weight: 500;
+  font-size: 14px;
+  opacity: 0.5;
+  top: -20px;
+  left: 0;
+}
+
+.popup__form .popup__placeholder {
+  font-weight: 500;
+  font-size: 14px;
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.2s ease-in-out;
+  pointer-events: none;
+}
