@@ -1,29 +1,28 @@
-const initialCards = [
-  {
-    name: 'Торонто',
-    link: 'https://images.unsplash.com/photo-1514924013411-cbf25faa35bb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=690&q=80',
-  },
-  {
-    name: 'Токио',
-    link: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1194&q=80',
-  },
-  {
-    name: 'Буэнос-Айрес',
-    link: 'https://images.unsplash.com/photo-1576541572620-cbc5457517b4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-  },
-  {
-    name: 'Москва',
-    link: 'https://images.unsplash.com/photo-1604324561454-5d28e384aebc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80',
-  },
-  {
-    name: 'Дубай',
-    link: 'https://images.unsplash.com/photo-1575538439014-1b8bc5fcaa1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-  },
-  {
-    name: 'Сан-Франциско',
-    link: 'https://images.unsplash.com/photo-1534050359320-02900022671e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80',
-  },
-];
+// Изображение ошибки
+
+import errorImage from '../images/error.png';
+
+// Объект настроек
+
+const settings = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button-submit',
+  inactiveButtonClass: 'popup__button-submit_disable',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_active',
+};
+
+// Объект пользователя
+
+const user = {
+  id: '',
+  name: '',
+};
+
+// Список, в который будут вставляться карточки
+
+const cards = document.querySelector('.cards');
 
 // Попапы
 
@@ -34,9 +33,9 @@ const popupAvatar = document.querySelector('#popup-avatar');
 
 // Кнопки
 
-const profileButtonEdit = document.querySelector('.profile__button-edit');
-const profileButtonAdd = document.querySelector('.profile__button-add');
-const buttonCloseList = document.querySelectorAll('.popup__button-close');
+const editButton = document.querySelector('.profile__button-edit');
+const addButton = document.querySelector('.profile__button-add');
+const closeButtonList = document.querySelectorAll('.popup__button-close');
 
 // Элементы попапа с открытым изображением
 
@@ -52,57 +51,40 @@ const avatarForm = document.forms.avatar;
 // Инпуты
 
 const nameInput = profileForm.elements.name;
-const infoInput = profileForm.elements.info;
+const aboutInput = profileForm.elements.info;
 const titleInput = imageForm.elements.title;
 const imageLinkInput = imageForm.elements.link;
 const avatarLinkInput = avatarForm.elements.avatar;
 
-// Изменение изображения профиля
-
-const profileAvatar = document.querySelector('.profile__avatar');
-
 // Элементы профиля
 
-const profileName = document.querySelector('.profile__name');
-const profileInfo = document.querySelector('.profile__info');
-
-// Список, в который будут вставляться карточки
-
-const listCard = document.querySelector('.photo-grid__list');
-
-// Объект настроек
-
-const settings = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button-submit',
-  inactiveButtonClass: 'popup__button-submit_disable',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_active',
-};
+const avatarElement = document.querySelector('.profile__avatar');
+const nameElement = document.querySelector('.profile__name');
+const aboutElement = document.querySelector('.profile__about');
 
 export {
+  errorImage,
   settings,
-  initialCards,
+  user,
+  cards,
   popupProfile,
   popupImage,
   popupImageZoom,
   popupAvatar,
-  profileButtonEdit,
-  profileButtonAdd,
-  buttonCloseList,
+  editButton,
+  addButton,
+  closeButtonList,
   imageZoom,
   captionZoom,
   profileForm,
   imageForm,
   avatarForm,
   nameInput,
-  infoInput,
+  aboutInput,
   titleInput,
   imageLinkInput,
   avatarLinkInput,
-  profileAvatar,
-  profileName,
-  profileInfo,
-  listCard,
+  avatarElement,
+  nameElement,
+  aboutElement,
 };

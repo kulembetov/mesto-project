@@ -1,7 +1,7 @@
-.photo-grid__button-like {
+.cards__button-like {
   width: 22px;
   height: 19px;
-  background-image: url('../../../images/like.svg');
+  background-image: url("../../../images/like.svg");
   background-color: transparent;
   background-repeat: no-repeat;
   background-size: contain;
@@ -11,9 +11,9 @@
   border: none;
   outline: none;
   cursor: pointer;
-  transition: all .3s ease-in-out;
-  }
+  transition: all 0.3s ease-in-out;
+}
 
-  .photo-grid__button-like:hover {
-    transform: scale(1.1);
-  }
+.cards__button-like:hover {
+  transform: scale(1.1);
+}

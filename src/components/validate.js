@@ -1,6 +1,4 @@
-import {
-  settings
-} from './variables.js';
+import { settings } from './variables.js';
 
 // Показ сообщения об ошибке
 
@@ -22,7 +20,7 @@ const hideInputError = (form, input, settings) => {
 
 // Валидация
 
-function checkInputValidity(form, input, settings) {
+const checkInputValidity = (form, input, settings) => {
   if (input.validity.patternMismatch) {
     input.setCustomValidity(input.dataset.errorMessage);
   } else {
@@ -87,6 +85,4 @@ const enableValidation = (settings) => {
   });
 };
 
-export {
-  enableValidation
-};
+export { enableValidation };

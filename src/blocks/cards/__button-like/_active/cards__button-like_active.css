@@ -1,7 +1,7 @@
-.photo-grid__button-like_active {
+.cards__button-like_active {
   width: 22px;
   height: 19px;
-  background-image: url('../../../../images/like-active.svg');
+  background-image: url("../../../../images/like-active.svg");
   background-color: transparent;
   background-repeat: no-repeat;
   background-size: contain;
@@ -11,5 +11,5 @@
   border: none;
   outline: none;
   cursor: pointer;
-  transition: all .3s ease-in-out;
-  }
+  transition: all 0.3s ease-in-out;
+}

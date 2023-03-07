@@ -4,43 +4,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="../src/images/favicon.svg">
+  <link rel="icon" href="<%=require('./images/favicon.svg')%>">
   <title>Место</title>
 </head>
 
 <body class="page">
   <header class="header">
-    <img class="header__logo" src="../src/images/header__logo.svg" alt="логотип Mesto Russia">
+    <img class="header__logo" src="<%=require('./images/header__logo.svg')%>" alt="логотип Mesto Russia">
   </header>
   <main class="content">
     <section class="profile">
       <div class="profile__avatar-overlay">
-        <img class="profile__avatar"
-          src="https://yourseureka.ru/800/600/http/3.bp.blogspot.com/-LIcXfTV_E4M/XLyuC1FMKKI/AAAAAAAAE0A/BHkhQNCvP8AfTbWKOauovquUhiDOgh1oACLcBGAs/w1200-h630-p-k-no-nu/jacques_cousteau_2.jpg"
-          alt="изображение профиля">
+        <img class="profile__avatar" src="" alt="Изображение профиля">
       </div>
       <div class="profile__description">
         <div class="profile__name-box">
-          <h1 class="profile__name">Жак-Ив Кусто</h1>
+          <h1 class="profile__name"></h1>
           <button class="profile__button-edit" type="button" aria-label="Кнопка редактирования профиля"></button>
         </div>
-        <p class="profile__info">Исследователь океана</p>
+        <p class="profile__about"></p>
       </div>
       <button class="profile__button-add" type="button" aria-label="Кнопка добавления фотографии"></button>
     </section>
-    <section class="photo-grid">
-      <ul class="photo-grid__list">
-        <template id="photo-grid-template">
-          <li class="photo-grid__item">
-            <img class="photo-grid__image" src="" alt="">
-            <button class="photo-grid__button-cart" type="button" aria-label="Кнопка корзины"></button>
-            <div class="photo-grid__description">
-              <h2 class="photo-grid__title"></h2>
-              <button class="photo-grid__button-like" type="button" aria-label="Кнопка лайка"></button>
-            </div>
-          </li>
-        </template>
-      </ul>
+    <section class="cards">
     </section>
   </main>
   <footer class="footer">
@@ -48,22 +34,25 @@
   </footer>
   <div class="popup" id="popup-profile">
     <div class="popup__overlay">
-      <form class="popup__form" id="form_add-profile-info" name="profile" method="post">
+      <form class="popup__form" id="form_add-profile-info" name="profile">
         <h2 class="popup__title">Редактировать профиль</h2>
         <fieldset class="popup__fieldset">
           <label class="popup__field">
-            <input class="popup__input" id="name" name="name" type="text" value="" minlength="2" maxlength="40"
-              placeholder="Имя" data-error-message="Разрешены только кириллица, латиница, проблелы и дефисы"
+            <input class="popup__input" id="name" name="name" type="text" value="Жак-Ив Кусто" minlength="2"
+              maxlength="40" placeholder="Имя"
+              data-error-message="Разрешены только кириллица, латиница, проблелы и дефисы"
               pattern="^[\s\-a-zA-Zа-яА-ЯЁё]+$" required>
-            <span id="name-error" name="name-error-error" class="popup__input-error popup__error"></span>
+            <span id="name-error" class="popup__input-error popup__error"></span>
           </label>
           <label class="popup__field">
-            <input class="popup__input" id="info" name="info" type="text" value="" minlength="2" maxlength="200"
-              placeholder="О себе" data-error-message="Разрешены только кириллица, латиница, проблелы и дефисы"
+            <input class="popup__input" id="info" name="info" type="text" value="Исследователь океана" minlength="2"
+              maxlength="200" placeholder="О себе"
+              data-error-message="Разрешены только кириллица, латиница, проблелы и дефисы"
               pattern="^[\s\-a-zA-Zа-яА-ЯЁё]+$" required>
-            <span id="info-error" name="info-error" class="popup__input-error popup__error"></span>
+            <span id="info-error" class="popup__input-error popup__error"></span>
           </label>
-          <button class="popup__button-submit" type="submit">Сохранить</button>
+          <button class="popup__button-submit" type="submit" data-save="Сохранить"
+            data-saving="Сохранение...">Сохранить</button>
           <button class="popup__button-close" type="button" aria-label="Кнопка закрытия"></button>
         </fieldset>
       </form>
@@ -71,22 +60,23 @@
   </div>
   <div class="popup" id="popup-image-add">
     <div class="popup__overlay">
-      <form class="popup__form" id="form_add-image" name="image" method="post">
+      <form class="popup__form" id="form_add-image" name="image">
         <h2 class="popup__title">Новое место</h2>
         <fieldset class="popup__fieldset">
           <label class="popup__field">
             <input class="popup__input" id="title" name="title" type="text" value="" minlength="2" maxlength="30"
               placeholder="Название" data-error-message="Разрешены только кириллица, латиница, проблелы и дефисы"
               pattern="^[\s\-a-zA-Zа-яА-ЯЁё]+$" required>
-            <span id="title-error" name="title-error" class="popup__input-error popup__error"></span>
+            <span id="title-error" class="popup__input-error popup__error"></span>
           </label>
           <label class="popup__field">
             <input class="popup__input" id="link" name="link" type="url" value="" placeholder="Ссылка на изображение"
               data-error-message="Должен быть URL"
               pattern="(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])" required>
-            <span id="link-error" name="link-error" class="popup__input-error popup__error"></span>
+            <span id="link-error" class="popup__input-error popup__error"></span>
           </label>
-          <button class="popup__button-submit" type="submit">Создать</button>
+          <button class="popup__button-submit" type="submit" data-save="Создать"
+            data-saving="Создание...">Создать</button>
           <button class="popup__button-close" type="button" aria-label="Кнопка закрытия"></button>
         </fieldset>
       </form>
@@ -94,16 +84,17 @@
   </div>
   <div class="popup" id="popup-avatar">
     <div class="popup__overlay">
-      <form class="popup__form" id="form_edit-avatar" name="avatar" method="post">
+      <form class="popup__form" id="form_edit-avatar" name="avatar">
         <h2 class="popup__title">Обновить аватар</h2>
         <fieldset class="popup__fieldset">
           <label class="popup__field">
             <input class="popup__input" id="avatar" name="avatar" type="url" value=""
               placeholder="Ссылка на изображение" data-error-message="Должен быть URL"
               pattern="(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])" required>
-            <span id="avatar-error" name="avatar-error" class="popup__input-error popup__error"></span>
+            <span id="avatar-error" class="popup__input-error popup__error"></span>
           </label>
-          <button class="popup__button-submit" type="submit">Сохранить</button>
+          <button class="popup__button-submit" type="submit" data-save="Сохранить"
+            data-saving="Сохранение...">Сохранить</button>
           <button class="popup__button-close" type="button" aria-label="Кнопка закрытия"></button>
         </fieldset>
       </form>
@@ -116,6 +107,27 @@
         <img class="popup__image" src="" alt="">
         <figcaption class="popup__caption"></figcaption>
       </figure>
+    </div>
+  </div>
+  <template id="cards-template">
+    <li class="cards__item">
+      <img class="cards__image" src="" alt="">
+      <button class="cards__button-cart" type="button" aria-label="Кнопка корзины"></button>
+      <div class="cards__description">
+        <h2 class="cards__title"></h2>
+        <div class="cards__like-box">
+          <button class="cards__button-like" type="button" aria-label="Кнопка лайка"></button>
+          <p class="cards__likes-counter"></p>
+        </div>
+      </div>
+    </li>
+  </template>
+  <div class="loading loading_active">
+    <div class="loading__icon-list">
+      <div class="loading__icon-item"></div>
+      <div class="loading__icon-item"></div>
+      <div class="loading__icon-item"></div>
+      <div class="loading__icon-item"></div>
     </div>
   </div>
 </body>

@@ -1,4 +1,4 @@
-.photo-grid__list {
+.cards__list {
   max-width: 880px;
   display: grid;
   grid-template-columns: repeat(auto-fit, 282px);
@@ -9,7 +9,7 @@
 }
 
 @media screen and (max-width: 1024px) {
-  .photo-grid__list {
+  .cards__list {
     width: 88%;
     margin: 36px auto 0;
   }
