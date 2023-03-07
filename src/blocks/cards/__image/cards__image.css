@@ -1,13 +1,14 @@
-.photo-grid__image {
+.cards__image {
   width: 282px;
   height: 282px;
+  text-align: center;
   display: block;
   object-fit: cover;
   border-radius: 10px 10px 0px 0px;
   cursor: pointer;
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
-.photo-grid__image:hover {
-  opacity: .95;
+.cards__image:hover {
+  opacity: 0.95;
 }

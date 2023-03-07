@@ -1,8 +1,8 @@
-.photo-grid__item {
+.cards__item {
   width: 100%;
-  background-color: #FFF;
+  background-color: #fff;
   display: grid;
-  grid-template-rows: 282px 1fr;
+  grid-template-rows: 282px 79px;
   position: relative;
   border-radius: 10px;
 }

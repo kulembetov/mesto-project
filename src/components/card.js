@@ -1,55 +1,118 @@
 import {
-  initialCards,
-  listCard,
+  errorImage,
+  user,
+  popupImageZoom,
+  imageZoom,
+  captionZoom,
 } from '../components/variables.js';
 
-import {
-  createPopupZoomImage
-} from '../components/modal.js';
+import { openPopup } from '../components/modal.js';
+
+import { removeCardRequest, setLikeRequest, removeLikeRequest } from './api.js';
+
+const hideCartButton = (owner, button) => {
+  if (user.id !== owner) {
+    button.remove();
+  }
+};
+
+// Проверка и установка лайков
+
+const checkLikes = (likes, counter) => {
+  if (likes.length > 0) {
+    counter.classList.add('cards__likes-counter_active');
+    counter.textContent = likes.length;
+  } else {
+    counter.classList.remove('cards__likes-counter_active');
+    counter.textContent = '';
+  }
+};
+
+// Проверка и установка своего лайка
+
+const checkMyLike = (likes, button) => {
+  likes.forEach((like) => {
+    if (like.name === user.name) {
+      button.classList.add('cards__button-like_active');
+    }
+  });
+};
 
 // Создание карточек
 
-const createCard = (link, title) => {
-  const templateCard = listCard.querySelector('#photo-grid-template').content;
-  const cardsClone = templateCard
-    .querySelector('.photo-grid__item')
-    .cloneNode(true);
-  const cardImage = cardsClone.querySelector('.photo-grid__image');
-  const cardName = cardsClone.querySelector('.photo-grid__title');
-  const cartButton = cardsClone.querySelector('.photo-grid__button-cart');
+const createCard = (card) => {
+  const cardTemplate = document.querySelector('#cards-template').content;
+  const cardsClone = cardTemplate.querySelector('.cards__item').cloneNode(true);
+  const cardImage = cardsClone.querySelector('.cards__image');
+  const cardTitle = cardsClone.querySelector('.cards__title');
+  const cartButton = cardsClone.querySelector('.cards__button-cart');
+  const likeButton = cardsClone.querySelector('.cards__button-like');
+  const cardLikesCounter = cardsClone.querySelector('.cards__likes-counter');
 
-  cardImage.src = link;
-  cardImage.alt = title;
-  cardName.textContent = title;
-  cardsClone
-    .querySelector('.photo-grid__button-like')
-    .addEventListener('click', function (evt) {
-      evt.target.classList.toggle('photo-grid__button-like_active');
-    });
+  cardTitle.textContent = card.name;
+  cardImage.src = card.link;
+  cardImage.alt = card.name;
 
-  cardsClone
-    .querySelector('.photo-grid__image')
-    .addEventListener('click', function () {
-      createPopupZoomImage(link, title);
-    });
-
-  cartButton.addEventListener('click', function (evt) {
-    evt.stopPropagation();
-    cardsClone.remove();
+  cardImage.addEventListener('error', () => {
+    cardImage.setAttribute('src', errorImage);
   });
+
+  // Открытие попапа с картинкой
+
+  cardImage.addEventListener('click', () => {
+    imageZoom.src = cardImage.src;
+    imageZoom.alt = cardImage.alt;
+    captionZoom.textContent = cardImage.alt;
+    openPopup(popupImageZoom);
+  });
+
+  // Лайк карточки
+
+  likeButton.addEventListener('click', (evt) => {
+    if (evt.target.classList.contains('cards__button-like_active')) {
+      removeLikeRequest(card._id).then((card) => {
+        checkLikes(card.likes, cardLikesCounter);
+        checkMyLike(card.likes, evt.target);
+        evt.target.classList.remove('cards__button-like_active');
+      });
+    } else {
+      setLikeRequest(card._id).then((card) => {
+        checkLikes(card.likes, cardLikesCounter);
+        checkMyLike(card.likes, evt.target);
+      });
+    }
+  });
+
+  // Удаление карточки
+
+  cartButton.addEventListener('click', (evt) => {
+    removeCardRequest(card._id).then(() => {
+      evt.target.closest('.cards__item').remove();
+    });
+  });
+
+  hideCartButton(card.owner._id, cartButton);
+
+  checkLikes(card.likes, cardLikesCounter);
+
+  checkMyLike(card.likes, likeButton);
 
   return cardsClone;
-}
-
-// Добавление в DOM
-
-const addImage = () => {
-  initialCards.forEach(function (item) {
-    listCard.append(createCard(item.link, item.name));
-  });
-}
-addImage();
-
-export {
-  createCard
 };
+
+// Добавление карточек
+
+const addCard = (card, box) => {
+  box.prepend(card);
+};
+
+// Заполнение карточек из массива
+
+const addCardList = (cards, box) => {
+  cards.reverse().forEach((card) => {
+    const item = createCard(card);
+    addCard(item, box);
+  });
+};
+
+export { createCard, addCard, addCardList };
