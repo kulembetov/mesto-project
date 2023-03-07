@@ -20,9 +20,10 @@ const user = {
   name: '',
 };
 
-// Список, в который будут вставляться карточки
+// Карточки
 
 const cards = document.querySelector('.cards');
+const cardTemplate = document.querySelector('#cards-template').content;
 
 // Попапы
 
@@ -67,6 +68,7 @@ export {
   settings,
   user,
   cards,
+  cardTemplate,
   popupProfile,
   popupImage,
   popupImageZoom,

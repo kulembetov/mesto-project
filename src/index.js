@@ -11,7 +11,6 @@ import {
   popupAvatar,
   editButton,
   addButton,
-  closeButtonList,
   profileForm,
   imageForm,
   avatarForm,
@@ -39,30 +38,23 @@ import { renderLoading, hideLoading } from './components/utils';
 
 // Получение данных с сервера
 
-const onLoad = () => {
-  new Promise((res, rej) => {
-    window.onload = res;
-    window.onerror = rej;
+Promise.all([getProfileRequest(), getCardsRequest()])
+  .then(([profile]) => {
+    nameElement.textContent = profile.name;
+    aboutElement.textContent = profile.about;
+    avatarElement.src = profile.avatar;
+    user.id = profile._id;
+    user.name = profile.name;
   })
-    .then(() => {
-      return getProfileRequest().then((profile) => {
-        nameElement.textContent = profile.name;
-        aboutElement.textContent = profile.about;
-        avatarElement.src = profile.avatar;
-        user.id = profile._id;
-        user.name = profile.name;
-      });
-    })
-    .then(() => {
-      getCardsRequest().then((item) => {
-        addCardList(item, cards);
-        hideLoading();
-      });
-    })
-    .catch((rej) => {
-      console.log(rej);
+  .then(() => {
+    getCardsRequest().then((item) => {
+      addCardList(item, cards);
+      hideLoading();
     });
-};
+  })
+  .catch((rej) => {
+    console.log(rej);
+  });
 
 // Обработчик формы профиля
 
@@ -73,10 +65,13 @@ const handleProfileForm = (evt) => {
     .then((res) => {
       nameElement.textContent = res.name;
       aboutElement.textContent = res.about;
+      closePopup(popupProfile);
+    })
+    .catch((err) => {
+      console.log(err);
     })
     .finally(() => {
       renderLoading(false, evt);
-      closePopup(popupProfile);
     });
 };
 
@@ -88,11 +83,14 @@ const handleImageForm = (evt) => {
   addCardRequest(titleInput.value, imageLinkInput.value)
     .then((card) => {
       addCard(createCard(card), cards);
+      closePopup(popupImage);
+      evt.target.reset();
+    })
+    .catch((err) => {
+      console.log(err);
     })
     .finally(() => {
       renderLoading(false, evt);
-      closePopup(popupImage);
-      evt.target.reset();
     });
 };
 
@@ -104,22 +102,16 @@ const handleAvatarForm = (evt) => {
   changeAvatarRequest(avatarLinkInput.value)
     .then((res) => {
       avatarElement.src = res.avatar;
+      closePopup(popupAvatar);
+      evt.target.reset();
+    })
+    .catch((err) => {
+      console.log(err);
     })
     .finally(() => {
       renderLoading(false, evt);
-      closePopup(popupAvatar);
-      evt.target.reset();
     });
 };
-
-// Нахождение попапа, внутри которого находится крестик и его закрытие
-
-closeButtonList.forEach((button) => {
-  const popup = button.closest('.popup');
-  button.addEventListener('click', () => {
-    closePopup(popup);
-  });
-});
 
 // Открытие попапа с изменением информации в профиле
 
@@ -162,7 +154,3 @@ avatarForm.addEventListener('submit', handleAvatarForm);
 // Валидация форм
 
 enableValidation(settings);
-
-// Вызов функции получения данных с сервера
-
-onLoad();
