@@ -1,6 +1,7 @@
 import {
   errorImage,
   user,
+  cardTemplate,
   popupImageZoom,
   imageZoom,
   captionZoom,
@@ -41,7 +42,6 @@ const checkMyLike = (likes, button) => {
 // Создание карточек
 
 const createCard = (card) => {
-  const cardTemplate = document.querySelector('#cards-template').content;
   const cardsClone = cardTemplate.querySelector('.cards__item').cloneNode(true);
   const cardImage = cardsClone.querySelector('.cards__image');
   const cardTitle = cardsClone.querySelector('.cards__title');
@@ -70,25 +70,37 @@ const createCard = (card) => {
 
   likeButton.addEventListener('click', (evt) => {
     if (evt.target.classList.contains('cards__button-like_active')) {
-      removeLikeRequest(card._id).then((card) => {
-        checkLikes(card.likes, cardLikesCounter);
-        checkMyLike(card.likes, evt.target);
-        evt.target.classList.remove('cards__button-like_active');
-      });
+      removeLikeRequest(card._id)
+        .then((card) => {
+          checkLikes(card.likes, cardLikesCounter);
+          checkMyLike(card.likes, evt.target);
+          evt.target.classList.remove('cards__button-like_active');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
-      setLikeRequest(card._id).then((card) => {
-        checkLikes(card.likes, cardLikesCounter);
-        checkMyLike(card.likes, evt.target);
-      });
+      setLikeRequest(card._id)
+        .then((card) => {
+          checkLikes(card.likes, cardLikesCounter);
+          checkMyLike(card.likes, evt.target);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   });
 
   // Удаление карточки
 
   cartButton.addEventListener('click', (evt) => {
-    removeCardRequest(card._id).then(() => {
-      evt.target.closest('.cards__item').remove();
-    });
+    removeCardRequest(card._id)
+      .then(() => {
+        evt.target.closest('.cards__item').remove();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   });
 
   hideCartButton(card.owner._id, cartButton);
