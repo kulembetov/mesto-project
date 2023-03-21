@@ -1,106 +1,101 @@
-import { request } from './utils.js';
+export default class Api {
+  constructor(options) {
+    this._baseUrl = options.baseUrl;
+    this._headers = options.headers;
+  }
 
-// Объект настроек
+  // Проверка ответа от сервера
 
-const settings = {
-  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-20',
-  headers: {
-    authorization: '7705f7d6-50a3-4e15-b4ba-203407e7d971',
-    'Content-Type': 'application/json',
-  },
-};
+  _checkResponse(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
+  }
+  _request(url, options) {
+    return fetch(url, options).then(this._checkResponse);
+  }
 
-// Получение данных профиля
+  // Получение данных профиля
 
-const getProfileRequest = () => {
-  return request(`${settings.baseUrl}/users/me`, {
-    method: 'GET',
-    headers: settings.headers,
-  });
-};
+  getProfileRequest() {
+    return this._request(`${this._baseUrl}/users/me`, {
+      method: "GET",
+      headers: this._headers,
+    });
+  }
 
-// Изменение данных профиля
+  // Изменение данных профиля
 
-const setProfileRequest = (nameInput, aboutInput) => {
-  return request(`${settings.baseUrl}/users/me`, {
-    method: 'PATCH',
-    headers: settings.headers,
-    body: JSON.stringify({
-      name: nameInput,
-      about: aboutInput,
-    }),
-  });
-};
+  setProfileRequest(nameInput, aboutInput) {
+    return this._request(`${this._baseUrl}/users/me`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({
+        name: nameInput,
+        about: aboutInput,
+      }),
+    });
+  }
 
-// Обновление изображения профиля
+  // Обновление изображения профиля
 
-const changeAvatarRequest = (linkInput) => {
-  return request(`${settings.baseUrl}/users/me/avatar`, {
-    method: 'PATCH',
-    headers: settings.headers,
-    body: JSON.stringify({
-      avatar: linkInput,
-    }),
-  });
-};
+  changeAvatarRequest(linkInput) {
+    return this._request(`${this._baseUrl}/users/me/avatar`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar: linkInput,
+      }),
+    });
+  }
 
-// Получение карточек
+  // Получение карточек
 
-const getCardsRequest = () => {
-  return request(`${settings.baseUrl}/cards`, {
-    method: 'GET',
-    headers: settings.headers,
-  });
-};
+  getCardsRequest() {
+    return this._request(`${this._baseUrl}/cards`, {
+      method: "GET",
+      headers: this._headers,
+    });
+  }
 
-// Добавление карточек
+  // Добавление карточек
 
-const addCardRequest = (titleInput, linkInput) => {
-  return request(`${settings.baseUrl}/cards`, {
-    method: 'POST',
-    headers: settings.headers,
-    body: JSON.stringify({
-      name: titleInput,
-      link: linkInput,
-    }),
-  });
-};
+  addCardRequest(titleInput, linkInput) {
+    return this._request(`${this._baseUrl}/cards`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify({
+        name: titleInput,
+        link: linkInput,
+      }),
+    });
+  }
 
-// Удаление карточки
+  // Удаление карточки
 
-const removeCardRequest = (cardId) => {
-  return request(`${settings.baseUrl}/cards/${cardId}`, {
-    method: 'DELETE',
-    headers: settings.headers,
-  });
-};
+  removeCardRequest(cardId) {
+    return this._request(`${this._baseUrl}/cards/${cardId}`, {
+      method: "DELETE",
+      headers: this._headers,
+    });
+  }
 
-// Установка лайка
+  // Установка лайка
 
-const setLikeRequest = (cardId) => {
-  return request(`${settings.baseUrl}/cards/likes/${cardId}`, {
-    method: 'PUT',
-    headers: settings.headers,
-  });
-};
+  setLikeRequest(cardId) {
+    return this._request(`${this._baseUrl}/cards/likes/${cardId}`, {
+      method: "PUT",
+      headers: this._headers,
+    });
+  }
 
-// Снятие лайка
+  // Снятие лайка
 
-const removeLikeRequest = (cardId) => {
-  return request(`${settings.baseUrl}/cards/likes/${cardId}`, {
-    method: 'DELETE',
-    headers: settings.headers,
-  });
-};
-
-export {
-  settings,
-  getProfileRequest,
-  setProfileRequest,
-  changeAvatarRequest,
-  getCardsRequest,
-  addCardRequest,
-  removeCardRequest,
-  setLikeRequest,
-  removeLikeRequest,
-};
+  removeLikeRequest(cardId) {
+    return this._request(`${this._baseUrl}/cards/likes/${cardId}`, {
+      method: "DELETE",
+      headers: this._headers,
+    });
+  }
+}

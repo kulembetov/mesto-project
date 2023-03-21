@@ -1,6 +1,7 @@
 import '../src/index.css';
 import { enableValidation } from './components/validate.js';
 import { openPopup, closePopup } from './components/modal.js';
+import Api from './components/api.js'
 import {
   errorImage,
   settings,
@@ -26,19 +27,19 @@ import {
 
 import { createCard, addCard, addCardList } from './components/card.js';
 
-import {
-  getProfileRequest,
-  setProfileRequest,
-  changeAvatarRequest,
-  getCardsRequest,
-  addCardRequest,
-} from './components/api.js';
-
 import { renderLoading, hideLoading } from './components/utils';
+
+export const api = new Api({
+  baseUrl: "https://nomoreparties.co/v1/plus-cohort-20",
+  headers: {
+    authorization: "7705f7d6-50a3-4e15-b4ba-203407e7d971",
+    "Content-Type": "application/json",
+  },
+});
 
 // Получение данных с сервера
 
-Promise.all([getProfileRequest(), getCardsRequest()])
+Promise.all([api.getProfileRequest(), api.getCardsRequest()])
   .then(([profile]) => {
     nameElement.textContent = profile.name;
     aboutElement.textContent = profile.about;
@@ -47,7 +48,7 @@ Promise.all([getProfileRequest(), getCardsRequest()])
     user.name = profile.name;
   })
   .then(() => {
-    getCardsRequest().then((item) => {
+    api.getCardsRequest().then((item) => {
       addCardList(item, cards);
       hideLoading();
     });
@@ -61,7 +62,7 @@ Promise.all([getProfileRequest(), getCardsRequest()])
 const handleProfileForm = (evt) => {
   evt.preventDefault();
   renderLoading(true, evt);
-  setProfileRequest(nameInput.value, aboutInput.value)
+  api.setProfileRequest(nameInput.value, aboutInput.value)
     .then((res) => {
       nameElement.textContent = res.name;
       aboutElement.textContent = res.about;
@@ -80,7 +81,7 @@ const handleProfileForm = (evt) => {
 const handleImageForm = (evt) => {
   evt.preventDefault();
   renderLoading(true, evt);
-  addCardRequest(titleInput.value, imageLinkInput.value)
+  api.addCardRequest(titleInput.value, imageLinkInput.value)
     .then((card) => {
       addCard(createCard(card), cards);
       closePopup(popupImage);
@@ -99,7 +100,7 @@ const handleImageForm = (evt) => {
 const handleAvatarForm = (evt) => {
   evt.preventDefault();
   renderLoading(true, evt);
-  changeAvatarRequest(avatarLinkInput.value)
+  api.changeAvatarRequest(avatarLinkInput.value)
     .then((res) => {
       avatarElement.src = res.avatar;
       closePopup(popupAvatar);
