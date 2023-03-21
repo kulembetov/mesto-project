@@ -1,7 +1,7 @@
-import '../src/index.css';
-import { enableValidation } from './components/validate.js';
-import { openPopup, closePopup } from './components/modal.js';
-import Api from './components/api.js'
+import "../src/index.css";
+import FormValidator from "./components/validate.js";
+import { openPopup, closePopup } from "./components/modal.js";
+import Api from "./components/api.js";
 import {
   errorImage,
   settings,
@@ -12,6 +12,7 @@ import {
   popupAvatar,
   editButton,
   addButton,
+  forms,
   profileForm,
   imageForm,
   avatarForm,
@@ -23,13 +24,13 @@ import {
   avatarElement,
   nameElement,
   aboutElement,
-} from './components/variables.js';
+} from "./components/variables.js";
 
-import { createCard, addCard, addCardList } from './components/card.js';
+import { createCard, addCard, addCardList } from "./components/card.js";
 
-import { renderLoading, hideLoading } from './components/utils';
+import { renderLoading, hideLoading } from "./components/utils";
 
-export const api = new Api({
+const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-20",
   headers: {
     authorization: "7705f7d6-50a3-4e15-b4ba-203407e7d971",
@@ -62,7 +63,8 @@ Promise.all([api.getProfileRequest(), api.getCardsRequest()])
 const handleProfileForm = (evt) => {
   evt.preventDefault();
   renderLoading(true, evt);
-  api.setProfileRequest(nameInput.value, aboutInput.value)
+  api
+    .setProfileRequest(nameInput.value, aboutInput.value)
     .then((res) => {
       nameElement.textContent = res.name;
       aboutElement.textContent = res.about;
@@ -81,7 +83,8 @@ const handleProfileForm = (evt) => {
 const handleImageForm = (evt) => {
   evt.preventDefault();
   renderLoading(true, evt);
-  api.addCardRequest(titleInput.value, imageLinkInput.value)
+  api
+    .addCardRequest(titleInput.value, imageLinkInput.value)
     .then((card) => {
       addCard(createCard(card), cards);
       closePopup(popupImage);
@@ -100,7 +103,8 @@ const handleImageForm = (evt) => {
 const handleAvatarForm = (evt) => {
   evt.preventDefault();
   renderLoading(true, evt);
-  api.changeAvatarRequest(avatarLinkInput.value)
+  api
+    .changeAvatarRequest(avatarLinkInput.value)
     .then((res) => {
       avatarElement.src = res.avatar;
       closePopup(popupAvatar);
@@ -116,7 +120,7 @@ const handleAvatarForm = (evt) => {
 
 // Открытие попапа с изменением информации в профиле
 
-editButton.addEventListener('click', () => {
+editButton.addEventListener("click", () => {
   nameInput.value = nameElement.textContent;
   aboutInput.value = aboutElement.textContent;
   openPopup(popupProfile);
@@ -124,34 +128,36 @@ editButton.addEventListener('click', () => {
 
 // Открытие попапа с добавлением картинок
 
-addButton.addEventListener('click', () => {
+addButton.addEventListener("click", () => {
   openPopup(popupImage);
 });
 
 // Открытие попапа с изменением изображения профиля
 
-avatarElement.addEventListener('click', () => {
+avatarElement.addEventListener("click", () => {
   openPopup(popupAvatar);
 });
 
 // Добавление изображения с ошибкой
 
-avatarElement.addEventListener('error', () => {
-  avatarElement.setAttribute('src', errorImage);
+avatarElement.addEventListener("error", () => {
+  avatarElement.setAttribute("src", errorImage);
 });
 
 // Отправка формы редактирования профиля
 
-profileForm.addEventListener('submit', handleProfileForm);
+profileForm.addEventListener("submit", handleProfileForm);
 
 // Отправка формы добавления изображения
 
-imageForm.addEventListener('submit', handleImageForm);
+imageForm.addEventListener("submit", handleImageForm);
 
 // Отправка формы изменения изображения профиля
 
-avatarForm.addEventListener('submit', handleAvatarForm);
+avatarForm.addEventListener("submit", handleAvatarForm);
 
 // Валидация форм
-
-enableValidation(settings);
+forms.forEach((form) => {
+  const formValidation = new FormValidator(settings, form);
+  formValidation.enableValidation();
+}); // Подумать как сделать ResetValidation
