@@ -5,7 +5,6 @@ export default class Api {
   }
 
   // Проверка ответа от сервера
-
   _checkResponse(res) {
     if (res.ok) {
       return res.json();
@@ -17,7 +16,6 @@ export default class Api {
   }
 
   // Получение данных профиля
-
   getProfileRequest() {
     return this._request(`${this._baseUrl}/users/me`, {
       method: "GET",
@@ -26,7 +24,6 @@ export default class Api {
   }
 
   // Изменение данных профиля
-
   setProfileRequest(nameInput, aboutInput) {
     return this._request(`${this._baseUrl}/users/me`, {
       method: "PATCH",
@@ -39,7 +36,6 @@ export default class Api {
   }
 
   // Обновление изображения профиля
-
   changeAvatarRequest(linkInput) {
     return this._request(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
@@ -51,7 +47,6 @@ export default class Api {
   }
 
   // Получение карточек
-
   getCardsRequest() {
     return this._request(`${this._baseUrl}/cards`, {
       method: "GET",
@@ -60,7 +55,6 @@ export default class Api {
   }
 
   // Добавление карточек
-
   addCardRequest(titleInput, linkInput) {
     return this._request(`${this._baseUrl}/cards`, {
       method: "POST",
@@ -73,7 +67,6 @@ export default class Api {
   }
 
   // Удаление карточки
-
   removeCardRequest(cardId) {
     return this._request(`${this._baseUrl}/cards/${cardId}`, {
       method: "DELETE",
@@ -82,7 +75,6 @@ export default class Api {
   }
 
   // Установка лайка
-
   setLikeRequest(cardId) {
     return this._request(`${this._baseUrl}/cards/likes/${cardId}`, {
       method: "PUT",
@@ -91,7 +83,6 @@ export default class Api {
   }
 
   // Снятие лайка
-
   removeLikeRequest(cardId) {
     return this._request(`${this._baseUrl}/cards/likes/${cardId}`, {
       method: "DELETE",

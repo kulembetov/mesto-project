@@ -10,7 +10,6 @@ import {
 import { openPopup } from '../components/modal.js';
 
 // Скрытие корзины
-
 const hideCartButton = (owner, button) => {
   if (user.id !== owner) {
     button.remove();
@@ -18,7 +17,6 @@ const hideCartButton = (owner, button) => {
 };
 
 // Проверка и установка лайков
-
 const checkLikes = (likes, counter) => {
   if (likes.length > 0) {
     counter.classList.add('cards__likes-counter_active');
@@ -30,7 +28,6 @@ const checkLikes = (likes, counter) => {
 };
 
 // Проверка и установка своего лайка
-
 const checkMyLike = (likes, button) => {
   likes.forEach((like) => {
     if (like.name === user.name) {
@@ -40,7 +37,6 @@ const checkMyLike = (likes, button) => {
 };
 
 // Создание карточек
-
 const createCard = (card) => {
   const cardsClone = cardTemplate.querySelector('.cards__item').cloneNode(true);
   const cardImage = cardsClone.querySelector('.cards__image');
@@ -58,7 +54,6 @@ const createCard = (card) => {
   });
 
   // Открытие попапа с картинкой
-
   cardImage.addEventListener('click', () => {
     imageZoom.src = cardImage.src;
     imageZoom.alt = cardImage.alt;
@@ -67,7 +62,6 @@ const createCard = (card) => {
   });
 
   // Лайк карточки
-
   likeButton.addEventListener('click', (evt) => {
     if (evt.target.classList.contains('cards__button-like_active')) {
       removeLikeRequest(card._id)
@@ -92,7 +86,6 @@ const createCard = (card) => {
   });
 
   // Удаление карточки
-
   cartButton.addEventListener('click', (evt) => {
     removeCardRequest(card._id)
       .then(() => {
@@ -113,13 +106,11 @@ const createCard = (card) => {
 };
 
 // Добавление карточек
-
 const addCard = (card, box) => {
   box.prepend(card);
 };
 
 // Заполнение карточек из массива
-
 const addCardList = (cards, box) => {
   cards.reverse().forEach((card) => {
     const item = createCard(card);

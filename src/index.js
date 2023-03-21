@@ -13,6 +13,7 @@ import {
   editButton,
   addButton,
   forms,
+  formValidators,
   profileForm,
   imageForm,
   avatarForm,
@@ -121,6 +122,7 @@ const handleAvatarForm = (evt) => {
 // Открытие попапа с изменением информации в профиле
 
 editButton.addEventListener("click", () => {
+  formValidators["profile"].resetValidation();
   nameInput.value = nameElement.textContent;
   aboutInput.value = aboutElement.textContent;
   openPopup(popupProfile);
@@ -129,12 +131,14 @@ editButton.addEventListener("click", () => {
 // Открытие попапа с добавлением картинок
 
 addButton.addEventListener("click", () => {
+  formValidators["image"].resetValidation();
   openPopup(popupImage);
 });
 
 // Открытие попапа с изменением изображения профиля
 
 avatarElement.addEventListener("click", () => {
+  formValidators["avatar"].resetValidation();
   openPopup(popupAvatar);
 });
 
@@ -158,6 +162,7 @@ avatarForm.addEventListener("submit", handleAvatarForm);
 
 // Валидация форм
 forms.forEach((form) => {
-  const formValidation = new FormValidator(settings, form);
-  formValidation.enableValidation();
-}); // Подумать как сделать ResetValidation
+  const formValidator = new FormValidator(settings, form);
+  formValidators[form.id] = formValidator;
+  formValidator.enableValidation();
+});

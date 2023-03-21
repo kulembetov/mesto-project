@@ -1,7 +1,6 @@
 import { closeButtonList } from '../components/variables.js';
 
 // Универсальное открытие и закрытие попапа при нажатии на крестик, ESC, оверлей
-
 const openPopup = (popup) => {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupEsc);
@@ -27,7 +26,6 @@ const closePopupMousedown = (evt) => {
 };
 
 // Нахождение попапа, внутри которого находится крести и его закрытие
-
 closeButtonList.forEach(function (button) {
   const popup = button.closest('.popup');
   button.addEventListener('click', () => {
