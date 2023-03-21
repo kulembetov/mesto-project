@@ -11,6 +11,8 @@ import { openPopup } from '../components/modal.js';
 
 import { removeCardRequest, setLikeRequest, removeLikeRequest } from './api.js';
 
+// Скрытие корзины
+
 const hideCartButton = (owner, button) => {
   if (user.id !== owner) {
     button.remove();
