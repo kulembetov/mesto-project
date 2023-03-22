@@ -10,12 +10,12 @@ import { openPopup } from "./modal.js";
 
 export default class Card {
   constructor(data, cardSelectors) {
-    this._title = data.title;
+    this._title = data.name;
     this._link = data.link;
     this._id = data._id;
     this._likes = data.likes;
+    this._ownerId = data.owner._id;
     this._selector = cardSelectors;
-    this._likeStatus = this.checkLikes();
     this._cardSelector = cardSelectors.cardSelector;
     this._cardTemplate = cardSelectors.cardTemplate;
     this._cardImage = cardSelectors.cardImage;
@@ -25,6 +25,36 @@ export default class Card {
     this._likeActiveButtonClass = cardSelectors.likeActiveButtonClass;
     this._cardLikesCounterSelector = cardSelectors.cardLikesCounterSelector;
   }
+
+  _getElement() {
+    const cardElement = this._cardTemplate.cloneNode(true);
+    return cardElement;
+  }
+
+  // Создание карточек
+  generate() {
+    this._element = this._getElement();
+    const cardImage = this._element.querySelector(this._cardImage);
+    const cardTitle = this._element.querySelector(this._cardTitle);
+    const cartButton = this._element.querySelector(this._cartButtonSelector);
+    const likeButton = this._element.querySelector(this._likeButtonSelector);
+    const cardLikesCounter = this._element.querySelector(
+      this._cardLikesCounterSelector
+    );
+
+    cardTitle.textContent = this._title;
+    cardImage.src = this._link;
+    cardImage.alt = this._title;
+
+    this.hideCartButton(this._ownerId, cartButton);
+
+    this.checkLikes(this._likes, cardLikesCounter);
+
+    this.checkMyLike(this._likes, likeButton);
+
+    return this._element;
+  }
+
   // Скрытие корзины
   hideCartButton(owner, button) {
     if (user.id !== owner) {
@@ -34,7 +64,7 @@ export default class Card {
 
   // Проверка и установка лайков
   checkLikes(likes, counter) {
-    if (likes.length > 0) {
+    if (this._likes.length > 0) {
       counter.classList.add("cards__likes-counter_active");
       counter.textContent = likes.length;
     } else {
@@ -46,36 +76,14 @@ export default class Card {
   // Проверка и установка своего лайка
   checkMyLike(likes, button) {
     likes.forEach((like) => {
-      if (like.name === user.name) {
+      if (like.id === user.id) {
         button.classList.add("cards__button-like_active");
       }
     });
   }
+}
 
-  // Создание карточек
-  generate(card) {
-    const cardsClone = this._cardTemplate.cloneNode(true);
-    const cardImage = cardsClone.querySelector(this._cardImage);
-    const cardTitle = cardsClone.querySelector(this._cardTitle);
-    const cartButton = cardsClone.querySelector(this._cartButtonSelector);
-    const likeButton = cardsClone.querySelector(this._likeButtonSelector);
-    const cardLikesCounter = cardsClone.querySelector(
-      this._cardLikesCounterSelector
-    );
-
-    cardTitle.textContent = card.name;
-    cardImage.src = card.link;
-    cardImage.alt = card.name;
-
-    hideCartButton(card.owner._id, cartButton);
-
-    checkLikes(card.likes, cardLikesCounter);
-
-    checkMyLike(card.likes, likeButton);
-
-    return cardsClone;
-  }
-
+/*
   _setEventListners() {
     // Открытие попапа с картинкой
     cardImage.addEventListener("click", () => {
@@ -136,5 +144,4 @@ export default class Card {
     });
   }
 }
-
-export { createCard, addCard, addCardList };
+*/

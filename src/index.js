@@ -25,11 +25,13 @@ import {
   avatarElement,
   nameElement,
   aboutElement,
+  cardSelectors,
 } from "./components/variables.js";
 
-import { createCard, addCard, addCardList } from "./components/Card.js";
+import Section from "./components/Section.js";
+import Card from "./components/Card.js";
 
-import { renderLoading, hideLoading } from "./components/utils";
+import { renderLoading, hideLoading } from "./components/utils.js";
 
 const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-20",
@@ -51,7 +53,18 @@ Promise.all([api.getProfileRequest(), api.getCardsRequest()])
   })
   .then(() => {
     api.getCardsRequest().then((item) => {
-      addCardList(item, cards);
+      const cardList = new Section(
+        {
+          items: item,
+          renderer: (item) => {
+            const card = new Card(item, cardSelectors);
+            const cardElement = card.generate();
+            cardList.addItem(cardElement);
+          },
+        },
+        ".cards"
+      );
+      cardList.renderItems();
       hideLoading();
     });
   })

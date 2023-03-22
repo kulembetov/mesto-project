@@ -71,7 +71,6 @@ export {
   cardSelectors,
   user,
   cards,
-  cardTemplate,
   popupProfile,
   popupImage,
   popupImageZoom,
