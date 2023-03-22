@@ -17,7 +17,9 @@ export default class FormValidator {
     this._errorClass = errorClass;
     this._inactiveButtonClass = inactiveButtonClass;
     this._inputSelector = inputSelector;
+    this._inputList = Array.from(form.querySelectorAll(this._inputSelector));
     this._formSelector = formSelector;
+    this._formList = Array.from(document.querySelectorAll(this._formSelector));
   }
 
   // Показать сообщение об ошибке
@@ -50,15 +52,15 @@ export default class FormValidator {
     }
   }
 
-  _hasInvalidInput(inputs) {
-    return inputs.some((input) => {
+  _hasInvalidInput() {
+    return this._inputList.some((input) => {
       return !input.validity.valid;
     });
   }
 
   // Изменение состояния кнопки отправки
-  _toggleButtonState(inputs) {
-    if (this._hasInvalidInput(inputs)) {
+  _toggleButtonState() {
+    if (this._hasInvalidInput(this._inputList)) {
       this._button.disabled = true;
       this._button.classList.add(this._inactiveButtonClass);
     } else {
@@ -69,28 +71,26 @@ export default class FormValidator {
 
   // Установка слушателей
   _setEventListeners() {
-    const inputs = Array.from(this._form.querySelectorAll(this._inputSelector));
-    this._toggleButtonState(inputs);
+    this._toggleButtonState();
     this._form.addEventListener("reset", () => {
       setTimeout(() => {
-        this._toggleButtonState(inputs);
+        this._toggleButtonState();
       }, 0);
     });
-    inputs.forEach((input) => {
+    this._inputList.forEach((input) => {
       input.addEventListener("input", () => {
         this._checkInputValidity(input);
-        this._toggleButtonState(inputs);
+        this._toggleButtonState();
       });
     });
   }
 
   // Включение валидации и отключение стандартной браузерной
   enableValidation() {
-    const forms = Array.from(document.querySelectorAll(this._formSelector));
-    forms.forEach((form) => {
+    this._formList.forEach((form) => {
       form.setAttribute("novalidate", true);
     });
-    forms.forEach((form) => {
+    this._formList.forEach((form) => {
       form.addEventListener("submit", (evt) => {
         evt.preventDefault();
       });
@@ -100,11 +100,9 @@ export default class FormValidator {
 
   // Сброс валидации
   resetValidation() {
-    const inputs = Array.from(this._form.querySelectorAll(this._inputSelector));
-
-    inputs.forEach((input) => {
+    this._inputList.forEach((input) => {
       this._hideInputError(input);
     });
-    this._toggleButtonState(inputs);
+    this._toggleButtonState();
   }
 }

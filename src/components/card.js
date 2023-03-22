@@ -5,9 +5,9 @@ import {
   popupImageZoom,
   imageZoom,
   captionZoom,
-} from '../components/variables.js';
+} from "../components/variables.js";
 
-import { openPopup } from '../components/modal.js';
+import { openPopup } from "../components/modal.js";
 
 // Скрытие корзины
 const hideCartButton = (owner, button) => {
@@ -19,11 +19,11 @@ const hideCartButton = (owner, button) => {
 // Проверка и установка лайков
 const checkLikes = (likes, counter) => {
   if (likes.length > 0) {
-    counter.classList.add('cards__likes-counter_active');
+    counter.classList.add("cards__likes-counter_active");
     counter.textContent = likes.length;
   } else {
-    counter.classList.remove('cards__likes-counter_active');
-    counter.textContent = '';
+    counter.classList.remove("cards__likes-counter_active");
+    counter.textContent = "";
   }
 };
 
@@ -31,30 +31,30 @@ const checkLikes = (likes, counter) => {
 const checkMyLike = (likes, button) => {
   likes.forEach((like) => {
     if (like.name === user.name) {
-      button.classList.add('cards__button-like_active');
+      button.classList.add("cards__button-like_active");
     }
   });
 };
 
 // Создание карточек
 const createCard = (card) => {
-  const cardsClone = cardTemplate.querySelector('.cards__item').cloneNode(true);
-  const cardImage = cardsClone.querySelector('.cards__image');
-  const cardTitle = cardsClone.querySelector('.cards__title');
-  const cartButton = cardsClone.querySelector('.cards__button-cart');
-  const likeButton = cardsClone.querySelector('.cards__button-like');
-  const cardLikesCounter = cardsClone.querySelector('.cards__likes-counter');
+  const cardsClone = cardTemplate.querySelector(".cards__item").cloneNode(true);
+  const cardImage = cardsClone.querySelector(".cards__image");
+  const cardTitle = cardsClone.querySelector(".cards__title");
+  const cartButton = cardsClone.querySelector(".cards__button-cart");
+  const likeButton = cardsClone.querySelector(".cards__button-like");
+  const cardLikesCounter = cardsClone.querySelector(".cards__likes-counter");
 
   cardTitle.textContent = card.name;
   cardImage.src = card.link;
   cardImage.alt = card.name;
 
-  cardImage.addEventListener('error', () => {
-    cardImage.setAttribute('src', errorImage);
+  cardImage.addEventListener("error", () => {
+    cardImage.setAttribute("src", errorImage);
   });
 
   // Открытие попапа с картинкой
-  cardImage.addEventListener('click', () => {
+  cardImage.addEventListener("click", () => {
     imageZoom.src = cardImage.src;
     imageZoom.alt = cardImage.alt;
     captionZoom.textContent = cardImage.alt;
@@ -62,13 +62,13 @@ const createCard = (card) => {
   });
 
   // Лайк карточки
-  likeButton.addEventListener('click', (evt) => {
-    if (evt.target.classList.contains('cards__button-like_active')) {
+  likeButton.addEventListener("click", (evt) => {
+    if (evt.target.classList.contains("cards__button-like_active")) {
       removeLikeRequest(card._id)
         .then((card) => {
           checkLikes(card.likes, cardLikesCounter);
           checkMyLike(card.likes, evt.target);
-          evt.target.classList.remove('cards__button-like_active');
+          evt.target.classList.remove("cards__button-like_active");
         })
         .catch((err) => {
           console.log(err);
@@ -86,10 +86,10 @@ const createCard = (card) => {
   });
 
   // Удаление карточки
-  cartButton.addEventListener('click', (evt) => {
+  cartButton.addEventListener("click", (evt) => {
     removeCardRequest(card._id)
       .then(() => {
-        evt.target.closest('.cards__item').remove();
+        evt.target.closest(".cards__item").remove();
       })
       .catch((err) => {
         console.log(err);
