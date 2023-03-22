@@ -55,7 +55,7 @@ Promise.all([api.getProfileRequest(), api.getCardsRequest()])
     api.getCardsRequest().then((item) => {
       const cardList = new Section(
         {
-          items: item,
+          items: item.reverse(),
           renderer: (item) => {
             const card = new Card(item, cardSelectors);
             const cardElement = card.generate();
@@ -99,8 +99,19 @@ const handleImageForm = (evt) => {
   renderLoading(true, evt);
   api
     .addCardRequest(titleInput.value, imageLinkInput.value)
-    .then((card) => {
-      addCard(createCard(card), cards);
+    .then((item) => {
+      const newCard = new Section(
+        {
+          items: item,
+          renderer: (item) => {
+            const card = new Card(item, cardSelectors);
+            const cardElement = card.generate();
+            newCard.addItem(cardElement);
+          },
+        },
+        ".cards"
+      );
+      newCard.renderNewItem();
       closePopup(popupImage);
       evt.target.reset();
     })

@@ -81,9 +81,7 @@ export default class Card {
       }
     });
   }
-}
-
-/*
+  /*
   _setEventListners() {
     // Открытие попапа с картинкой
     cardImage.addEventListener("click", () => {
@@ -130,18 +128,5 @@ export default class Card {
         });
     });
   }
-
-  // Добавление карточек
-  addCard(card, box) {
-    box.prepend(card);
-  }
-
-  // Заполнение карточек из массива
-  addCardList(cards, box) {
-    cards.reverse().forEach((card) => {
-      const item = createCard(card);
-      addCard(item, box);
-    });
-  }
-}
 */
+}
