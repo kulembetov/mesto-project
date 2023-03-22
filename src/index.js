@@ -1,7 +1,7 @@
 import "../src/index.css";
 import FormValidator from "./components/FormValidator.js";
 import { openPopup, closePopup } from "./components/modal.js";
-import Api from "./components/api.js";
+import Api from "./components/Api.js";
 import {
   errorImage,
   settings,
@@ -27,7 +27,7 @@ import {
   aboutElement,
 } from "./components/variables.js";
 
-import { createCard, addCard, addCardList } from "./components/card.js";
+import { createCard, addCard, addCardList } from "./components/Card.js";
 
 import { renderLoading, hideLoading } from "./components/utils";
 

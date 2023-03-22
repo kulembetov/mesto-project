@@ -11,6 +11,17 @@ const settings = {
   errorClass: "popup__error_active",
 };
 
+const cardSelectors = {
+  cardSelector: ".cards__item",
+  cardTemplate: document.querySelector("#cards-template").content,
+  cardImage: ".cards__image",
+  cardTitle: ".cards__title",
+  cartButtonSelector: ".cards__button-cart",
+  likeButtonSelector: ".cards__button-like",
+  likeActiveButtonClass: "cards__button-like_active",
+  cardLikesCounterSelector: ".cards__likes-counter",
+};
+
 // Объект пользователя
 const user = {
   id: "",
@@ -19,7 +30,6 @@ const user = {
 
 // Карточки
 const cards = document.querySelector(".cards");
-const cardTemplate = document.querySelector("#cards-template").content;
 
 // Попапы
 const popupProfile = document.querySelector("#popup-profile");
@@ -58,6 +68,7 @@ const aboutElement = document.querySelector(".profile__about");
 export {
   errorImage,
   settings,
+  cardSelectors,
   user,
   cards,
   cardTemplate,
