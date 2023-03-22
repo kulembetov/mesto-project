@@ -1,7 +1,6 @@
 import {
   errorImage,
   user,
-  cardTemplate,
   popupImageZoom,
   imageZoom,
   captionZoom,
@@ -16,7 +15,7 @@ export default class Card {
     this._id = data._id;
     this._likes = data.likes;
     this._selector = cardSelectors;
-    this._likeStatus = this.checkLikes;
+    this._likeStatus = this.checkLikes();
     this._cardSelector = cardSelectors.cardSelector;
     this._cardTemplate = cardSelectors.cardTemplate;
     this._cardImage = cardSelectors.cardImage;
@@ -54,7 +53,7 @@ export default class Card {
   }
 
   // Создание карточек
-  createCard(card) {
+  generate(card) {
     const cardsClone = this._cardTemplate.cloneNode(true);
     const cardImage = cardsClone.querySelector(this._cardImage);
     const cardTitle = cardsClone.querySelector(this._cardTitle);
@@ -68,16 +67,26 @@ export default class Card {
     cardImage.src = card.link;
     cardImage.alt = card.name;
 
-    cardImage.addEventListener("error", () => {
-      cardImage.setAttribute("src", errorImage);
-    });
+    hideCartButton(card.owner._id, cartButton);
 
+    checkLikes(card.likes, cardLikesCounter);
+
+    checkMyLike(card.likes, likeButton);
+
+    return cardsClone;
+  }
+
+  _setEventListners() {
     // Открытие попапа с картинкой
     cardImage.addEventListener("click", () => {
       imageZoom.src = cardImage.src;
       imageZoom.alt = cardImage.alt;
       captionZoom.textContent = cardImage.alt;
       openPopup(popupImageZoom);
+    });
+
+    cardImage.addEventListener("error", () => {
+      cardImage.setAttribute("src", errorImage);
     });
 
     // Лайк карточки
@@ -102,7 +111,6 @@ export default class Card {
           });
       }
     });
-
     // Удаление карточки
     cartButton.addEventListener("click", (evt) => {
       removeCardRequest(card._id)
@@ -113,17 +121,7 @@ export default class Card {
           console.log(err);
         });
     });
-
-    hideCartButton(card.owner._id, cartButton);
-
-    checkLikes(card.likes, cardLikesCounter);
-
-    checkMyLike(card.likes, likeButton);
-
-    return cardsClone;
   }
-
-  _setEventListners() {}
 
   // Добавление карточек
   addCard(card, box) {
