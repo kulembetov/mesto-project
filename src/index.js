@@ -1,5 +1,5 @@
 import "../src/index.css";
-import FormValidator from "./components/validate.js";
+import FormValidator from "./components/FormValidator.js";
 import { openPopup, closePopup } from "./components/modal.js";
 import Api from "./components/api.js";
 import {
