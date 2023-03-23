@@ -18,8 +18,9 @@ const cardSelectors = {
   cardTitle: ".cards__title",
   cartButtonSelector: ".cards__button-cart",
   likeButtonSelector: ".cards__button-like",
-  likeActiveButtonClass: "cards__button-like_active",
+  likeButtonActiveClass: "cards__button-like_active",
   cardLikesCounterSelector: ".cards__likes-counter",
+  cardLikesCounterActiveClass: ".cards__likes-counter_active",
 };
 
 // Объект пользователя
@@ -32,6 +33,7 @@ const user = {
 const cards = document.querySelector(".cards");
 
 // Попапы
+const popups = document.querySelector(".popups");
 const popupProfile = document.querySelector("#popup-profile");
 const popupImage = document.querySelector("#popup-image-add");
 const popupImageZoom = document.querySelector("#popup-image-zoom");
@@ -71,6 +73,7 @@ export {
   cardSelectors,
   user,
   cards,
+  popups,
   popupProfile,
   popupImage,
   popupImageZoom,
