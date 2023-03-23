@@ -16,7 +16,7 @@ const cardSelectors = {
   cardTemplate: document.querySelector("#cards-template").content,
   cardImage: ".cards__image",
   cardTitle: ".cards__title",
-  cartButtonSelector: ".cards__button-cart",
+  deleteButtonSelector: ".cards__button-cart",
   likeButtonSelector: ".cards__button-like",
   likeButtonActiveClass: "cards__button-like_active",
   cardLikesCounterSelector: ".cards__likes-counter",
