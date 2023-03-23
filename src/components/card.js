@@ -3,7 +3,9 @@ export default class Card {
     data,
     cardSelectors,
     user,
-    { handleCardRemove, handleCardClick, handleLikeEvent }
+    handleCardRemove,
+    handleCardClick,
+    handleLikeEvent
   ) {
     this._title = data.name;
     this._link = data.link;
@@ -30,7 +32,9 @@ export default class Card {
   }
 
   _createElement() {
-    const cardElement = this._cardTemplate.cloneNode(true);
+    const cardElement = this._cardTemplate
+      .querySelector(this._cardSelector)
+      .cloneNode(true);
     return cardElement;
   }
 

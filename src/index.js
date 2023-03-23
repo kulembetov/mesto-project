@@ -41,11 +41,11 @@ const api = new Api({
   },
 });
 
-const deleteCard = () => {
+const deleteCard = (card) => {
   api
-    .removeCardRequest(this._cardId)
+    .removeCardRequest(card._cardId)
     .then(() => {
-      this.removeCard();
+      card.removeCard();
     })
     .catch((err) => {
       console.log(err);
