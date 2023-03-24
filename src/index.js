@@ -56,6 +56,10 @@ const deleteCard = (card) => {
     });
 };
 
+const openImagePopup = (card) => {
+  imagePopup.openPopup(card._title, card._link);
+};
+
 // const addLike = (card) => {
 //   api
 //     .setLikeRequest(card._cardId)
@@ -125,7 +129,7 @@ Promise.all([api.getProfileRequest(), api.getCardsRequest()])
               user,
               deleteCard,
               likeEvent,
-              imagePopup.openPopup(item)
+              openImagePopup
             );
             const cardElement = card.generate();
             cardList.addItem(cardElement);
@@ -179,7 +183,7 @@ const handleImageForm = (evt) => {
               user,
               deleteCard,
               likeEvent,
-              imagePopup.openPopup()
+              openImagePopup
             );
             const cardElement = card.generate();
             newCard.addItem(cardElement);
