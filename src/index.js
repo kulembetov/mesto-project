@@ -1,6 +1,5 @@
 import "../src/index.css";
 import FormValidator from "./components/FormValidator.js";
-import { openPopup, closePopup } from "./components/modal.js";
 import Api from "./components/Api.js";
 import PopupWithImage from "./components/PopupWithImage.js";
 import {
@@ -44,6 +43,7 @@ const api = new Api({
 });
 
 const imagePopup = new PopupWithImage(".popup__image-zoom", popupConfig);
+imagePopup.setEventListeners();
 
 const deleteCard = (card) => {
   api
