@@ -2,11 +2,13 @@ import "../src/index.css";
 import FormValidator from "./components/FormValidator.js";
 import { openPopup, closePopup } from "./components/modal.js";
 import Api from "./components/Api.js";
+import PopupWithImage from "./components/PopupWithImage.js";
 import {
   errorImage,
   settings,
   user,
   cards,
+  popupSelectors,
   popupProfile,
   popupImage,
   popupAvatar,
@@ -40,6 +42,8 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
+
+const imagePopup = new PopupWithImage(popupSelectors);
 
 const deleteCard = (card) => {
   api
@@ -120,7 +124,8 @@ Promise.all([api.getProfileRequest(), api.getCardsRequest()])
               cardSelectors,
               user,
               deleteCard,
-              likeEvent
+              likeEvent,
+              popupImage.openPopup(item)
             );
             const cardElement = card.generate();
             cardList.addItem(cardElement);
@@ -173,7 +178,8 @@ const handleImageForm = (evt) => {
               cardSelectors,
               user,
               deleteCard,
-              likeEvent
+              likeEvent,
+              popupImage.openPopup(item)
             );
             const cardElement = card.generate();
             newCard.addItem(cardElement);

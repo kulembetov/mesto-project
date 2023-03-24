@@ -27,6 +27,8 @@ const popupSelectors = {
   popupSelector: ".popup",
   popupOpenedClass: "popup_opened",
   popupCloseButtonClass: "popup__button-close",
+  popupImageSelector: ".popup__image",
+  popupCaptionSelector: ".popup__caption",
 };
 
 // Объект пользователя
@@ -50,11 +52,7 @@ const editButton = document.querySelector(".profile__button-edit");
 const addButton = document.querySelector(".profile__button-add");
 const closeButtonList = document.querySelectorAll(".popup__button-close");
 
-// Элементы попапа с открытым изображением
-const imageZoom = document.querySelector(".popup__image");
-const captionZoom = document.querySelector(".popup__caption");
-
-// Формы
+// Формыf
 const forms = document.querySelectorAll(".popup__form");
 const formValidators = {};
 const profileForm = document.forms.profile;
@@ -77,6 +75,7 @@ export {
   errorImage,
   settings,
   cardSelectors,
+  popupSelectors,
   user,
   cards,
   popups,
@@ -87,8 +86,6 @@ export {
   editButton,
   addButton,
   closeButtonList,
-  imageZoom,
-  captionZoom,
   forms,
   formValidators,
   profileForm,
