@@ -4,8 +4,8 @@ export default class Card {
     cardSelectors,
     user,
     handleCardRemove,
-    handleCardClick,
-    handleLikeClick
+    handleLikeClick,
+    handleCardClick
   ) {
     this._title = data.name;
     this._link = data.link;
@@ -23,10 +23,10 @@ export default class Card {
     this._cardLikesCounterSelector = cardSelectors.cardLikesCounterSelector;
     this._cardLikesCounterActiveClass =
       cardSelectors.cardLikesCounterActiveClass;
-    this._likeStatus = this._checkMyLike();
 
     this._userId = user.id;
 
+    this._likeStatus = this._checkMyLike();
     this._handleCardRemove = handleCardRemove;
     this._handleCardClick = handleCardClick;
     this._handleLikeClick = handleLikeClick;
@@ -61,7 +61,8 @@ export default class Card {
       this._deleteButton.remove();
     }
 
-    this._toggleLikeButtonState()
+    this._toggleLikeButtonState();
+    this._toggleLikeCounterState();
     this._setEventListeners();
 
     return this._element;
@@ -69,8 +70,7 @@ export default class Card {
 
   // Проверка и установка лайков
   _checkLikes() {
-    this._cardLikesCounter.classList.add(this._cardLikesCounterActiveClass);
-    this._cardLikesCounter.textContent = this._likes.length;
+    return this._likes;
   }
 
   // Проверка и установка своего лайка
@@ -88,18 +88,33 @@ export default class Card {
     }
   }
 
-  addLike() {
-    this._likeButton.classList.toggle(this._likeButtonActiveClass);
-    this._cardLikesCounter.textContent = this._likes.length;
-  }
-
-  removeLike() {
-    this._likeButton.classList.remove(this._likeButtonActiveClass);
-    this._cardLikesCounter.textContent = this._likes.length;
+  _toggleLikeCounterState() {
+    if (this._checkLikes()) {
+      this._cardLikesCounter.classList.add(this._cardLikesCounterActiveClass);
+      this._cardLikesCounter.textContent = this._likes.length;
+    } else {
+      this._cardLikesCounter.classList.remove(
+        this._cardLikesCounterActiveClass
+      );
+      this._cardLikesCounter.textContent = "";
+    }
   }
 
   // Добавление лайка
+  addLike() {
+    this._likeButton.classList.add(this._likeButtonActiveClass);
+    this._cardLikesCounter.textContent = this._likes.length;
+    this._likeStatus = !this._likeStatus;
+  }
 
+  // Удаление лайка
+  removeLike() {
+    this._likeButton.classList.remove(this._likeButtonActiveClass);
+    this._cardLikesCounter.textContent = this._likes.length;
+    this._likeStatus = !this._likeStatus;
+  }
+
+  // Удаление карточки
   removeCard() {
     this._element.remove();
   }
@@ -108,10 +123,6 @@ export default class Card {
   _setEventListeners() {
     this._likeButton.addEventListener("click", () => {
       this._handleLikeClick(this);
-      // this._likeStatus = !this._likeStatus;
-      // this._likeButton.addEventListener("click", () => {
-      //   this._handleLikeClick(this)
-      // });
     });
 
     this._deleteButton.addEventListener("click", () => {

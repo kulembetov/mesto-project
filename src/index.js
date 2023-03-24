@@ -65,7 +65,24 @@ const deleteCard = (card) => {
 // };
 
 const likeEvent = (card) => {
-  if (likeStatus) {
+  if (card._likeStatus) {
+    api
+      .removeLikeRequest(card._cardId)
+      .then(() => {
+        card.removeLike();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } else {
+    api
+      .setLikeRequest(card._cardId)
+      .then(() => {
+        card.addLike();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 };
 
@@ -102,17 +119,7 @@ Promise.all([api.getProfileRequest(), api.getCardsRequest()])
               cardSelectors,
               user,
               deleteCard,
-              {
-                // handleLikeClick: () => {
-                //   if (
-                //     !evt.target.classList.contains("cards__button-like_active")
-                //   ) {
-                //     card._handleAddLike();
-                //   } else {
-                //     card._handleRemoveLike();
-                //   }
-                // },
-              }
+              likeEvent
             );
             const cardElement = card.generate();
             cardList.addItem(cardElement);
@@ -165,6 +172,7 @@ const handleImageForm = (evt) => {
               cardSelectors,
               user,
               deleteCard,
+              likeEvent
             );
             const cardElement = card.generate();
             newCard.addItem(cardElement);
