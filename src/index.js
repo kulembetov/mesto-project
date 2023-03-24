@@ -68,8 +68,9 @@ const likeEvent = (card) => {
   if (card._likeStatus) {
     api
       .removeLikeRequest(card._cardId)
-      .then(() => {
-        card.removeLike();
+      .then((res) => {
+        console.log(res);
+        card.removeLike(res);
       })
       .catch((err) => {
         console.log(err);
@@ -77,8 +78,8 @@ const likeEvent = (card) => {
   } else {
     api
       .setLikeRequest(card._cardId)
-      .then(() => {
-        card.addLike();
+      .then((res) => {
+        card.addLike(res);
       })
       .catch((err) => {
         console.log(err);

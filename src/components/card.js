@@ -70,7 +70,7 @@ export default class Card {
 
   // Проверка и установка лайков
   _checkLikes() {
-    return this._likes;
+    return this._likes.length;
   }
 
   // Проверка и установка своего лайка
@@ -101,17 +101,21 @@ export default class Card {
   }
 
   // Добавление лайка
-  addLike() {
+  addLike(res) {
+    this._likes = res.likes;
     this._likeButton.classList.add(this._likeButtonActiveClass);
     this._cardLikesCounter.textContent = this._likes.length;
     this._likeStatus = !this._likeStatus;
+    this._toggleLikeCounterState();
   }
 
   // Удаление лайка
-  removeLike() {
+  removeLike(res) {
+    this._likes = res.likes;
     this._likeButton.classList.remove(this._likeButtonActiveClass);
     this._cardLikesCounter.textContent = this._likes.length;
     this._likeStatus = !this._likeStatus;
+    this._toggleLikeCounterState();
   }
 
   // Удаление карточки
