@@ -23,6 +23,12 @@ const cardSelectors = {
   cardLikesCounterActiveClass: "cards__likes-counter_active",
 };
 
+const popupSelectors = {
+  popupSelector: ".popup",
+  popupOpenedClass: "popup_opened",
+  popupCloseButtonClass: "popup__button-close",
+};
+
 // Объект пользователя
 const user = {
   id: "",
