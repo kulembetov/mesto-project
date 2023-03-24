@@ -5,7 +5,7 @@ export default class Card {
     user,
     handleCardRemove,
     handleCardClick,
-    handleLikeEvent
+    handleLikeClick
   ) {
     this._title = data.name;
     this._link = data.link;
@@ -23,12 +23,13 @@ export default class Card {
     this._cardLikesCounterSelector = cardSelectors.cardLikesCounterSelector;
     this._cardLikesCounterActiveClass =
       cardSelectors.cardLikesCounterActiveClass;
+    this._likeStatus = this._checkMyLike();
 
     this._userId = user.id;
 
     this._handleCardRemove = handleCardRemove;
     this._handleCardClick = handleCardClick;
-    this._handleLikeEvent = handleLikeEvent;
+    this._handleLikeClick = handleLikeClick;
   }
 
   _createElement() {
@@ -46,6 +47,7 @@ export default class Card {
     this._deleteButton = this._element.querySelector(
       this._deleteButtonSelector
     );
+
     this._likeButton = this._element.querySelector(this._likeButtonSelector);
     this._cardLikesCounter = this._element.querySelector(
       this._cardLikesCounterSelector
@@ -55,14 +57,11 @@ export default class Card {
     this._cardImage.src = this._link;
     this._cardImage.alt = this._title;
 
-    this._checkLikes();
-
-    this._checkMyLike(this._likes, this._likeButton);
-
     if (this._userId !== this._ownerId) {
       this._deleteButton.remove();
     }
 
+    this._toggleLikeButtonState()
     this._setEventListeners();
 
     return this._element;
@@ -70,36 +69,36 @@ export default class Card {
 
   // Проверка и установка лайков
   _checkLikes() {
-    if (this._likes.length > 0) {
-      this._cardLikesCounter.classList.add(this._cardLikesCounterActiveClass);
-      this._cardLikesCounter.textContent = this._likes.length;
-    } else {
-      this._cardLikesCounter.classList.remove(
-        this._cardLikesCounterActiveClass
-      );
-      this._cardLikesCounter.textContent = "";
-    }
+    this._cardLikesCounter.classList.add(this._cardLikesCounterActiveClass);
+    this._cardLikesCounter.textContent = this._likes.length;
   }
 
   // Проверка и установка своего лайка
   _checkMyLike() {
-    this._likes.forEach((like) => {
-      if (like.id === this._userId) {
-        this._likeButton.classList.add(this._likeButtonActiveClass);
-      }
+    return this._likes.some((like) => {
+      return like._id === this._userId;
     });
   }
 
+  _toggleLikeButtonState() {
+    if (this._likeStatus) {
+      this._likeButton.classList.add(this._likeButtonActiveClass);
+    } else {
+      this._likeButton.classList.remove(this._likeButtonActiveClass);
+    }
+  }
+
+  addLike() {
+    this._likeButton.classList.toggle(this._likeButtonActiveClass);
+    this._cardLikesCounter.textContent = this._likes.length;
+  }
+
+  removeLike() {
+    this._likeButton.classList.remove(this._likeButtonActiveClass);
+    this._cardLikesCounter.textContent = this._likes.length;
+  }
+
   // Добавление лайка
-  _handleAddLike() {
-    сheckLikes();
-    evt.target.classList.toggle(this._likeButtonActiveClass);
-  }
-  // Удаление лайка
-  _handleRemoveLike() {
-    сheckLikes();
-    evt.target.classList.remove(this._likeButtonActiveClass);
-  }
 
   removeCard() {
     this._element.remove();
@@ -108,8 +107,11 @@ export default class Card {
   // Установка слушателей
   _setEventListeners() {
     this._likeButton.addEventListener("click", () => {
-      this._handleLikeEvent;
-      this._likeStatus = !this._likeStatus;
+      this._handleLikeClick(this);
+      // this._likeStatus = !this._likeStatus;
+      // this._likeButton.addEventListener("click", () => {
+      //   this._handleLikeClick(this)
+      // });
     });
 
     this._deleteButton.addEventListener("click", () => {

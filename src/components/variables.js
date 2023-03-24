@@ -16,11 +16,11 @@ const cardSelectors = {
   cardTemplate: document.querySelector("#cards-template").content,
   cardImage: ".cards__image",
   cardTitle: ".cards__title",
-  deleteButtonSelector: ".cards__button-cart",
+  deleteButtonSelector: ".cards__button-delete",
   likeButtonSelector: ".cards__button-like",
   likeButtonActiveClass: "cards__button-like_active",
   cardLikesCounterSelector: ".cards__likes-counter",
-  cardLikesCounterActiveClass: ".cards__likes-counter_active",
+  cardLikesCounterActiveClass: "cards__likes-counter_active",
 };
 
 // Объект пользователя

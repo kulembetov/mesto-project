@@ -51,6 +51,36 @@ const deleteCard = (card) => {
       console.log(err);
     });
 };
+
+// const addLike = (card) => {
+//   api
+//     .setLikeRequest(card._cardId)
+//     .then(() => {
+//       checkLikes(card.likes, cardLikesCounter);
+//       checkMyLike(card.likes, evt.target);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// };
+
+const likeEvent = (card) => {
+  if (likeStatus) {
+  }
+};
+
+// const deleteLike = (card) => {
+//   api
+//     .removeLikeRequest(card._cardId)
+//     .then(() => {
+//       checkLikes(card.likes, cardLikesCounter);
+//       evt.target.classList.remove(this._likeButtonActiveClass);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// };
+
 // Получение данных с сервера
 
 Promise.all([api.getProfileRequest(), api.getCardsRequest()])
@@ -67,7 +97,23 @@ Promise.all([api.getProfileRequest(), api.getCardsRequest()])
         {
           items: item.reverse(),
           renderer: (item) => {
-            const card = new Card(item, cardSelectors, user, deleteCard);
+            const card = new Card(
+              item,
+              cardSelectors,
+              user,
+              deleteCard,
+              {
+                // handleLikeClick: () => {
+                //   if (
+                //     !evt.target.classList.contains("cards__button-like_active")
+                //   ) {
+                //     card._handleAddLike();
+                //   } else {
+                //     card._handleRemoveLike();
+                //   }
+                // },
+              }
+            );
             const cardElement = card.generate();
             cardList.addItem(cardElement);
           },
@@ -114,7 +160,12 @@ const handleImageForm = (evt) => {
         {
           items: item,
           renderer: (item) => {
-            const card = new Card(item, cardSelectors, user, deleteCard);
+            const card = new Card(
+              item,
+              cardSelectors,
+              user,
+              deleteCard,
+            );
             const cardElement = card.generate();
             newCard.addItem(cardElement);
           },
