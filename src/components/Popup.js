@@ -1,10 +1,8 @@
 export default class Popup {
-  constructor(popupSelectors) {
-    this._popupItem = document.querySelector(popupSelectors.popupSelectors);
-    this._popupOpenedClass = popupSelectors.popupOpenedClass;
-    this._popupCloseButtonClass = popupSelectors.popupCloseButtonClass;
-    this._popupImageSelector = popupSelectors.popupImageSelector;
-    this._popupCaptionSelector = popupSelectors.popupCaptionSelector;
+  constructor(popupSelector, popupConfig) {
+    this._popupItem = document.querySelector(popupSelector);
+    this._popupOpenedClass = popupConfig.popupOpenedClass;
+    this._popupCloseButtonClass = popupConfig.popupCloseButtonClass;
   }
 
   // Универсальное открытие и закрытие попапа при нажатии на крестик, ESC, оверлей

@@ -23,8 +23,7 @@ const cardSelectors = {
   cardLikesCounterActiveClass: "cards__likes-counter_active",
 };
 
-const popupSelectors = {
-  popupSelector: ".popup",
+const popupConfig = {
   popupOpenedClass: "popup_opened",
   popupCloseButtonClass: "popup__button-close",
   popupImageSelector: ".popup__image",
@@ -75,7 +74,7 @@ export {
   errorImage,
   settings,
   cardSelectors,
-  popupSelectors,
+  popupConfig,
   user,
   cards,
   popups,

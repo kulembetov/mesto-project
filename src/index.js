@@ -8,7 +8,7 @@ import {
   settings,
   user,
   cards,
-  popupSelectors,
+  popupConfig,
   popupProfile,
   popupImage,
   popupAvatar,
@@ -43,7 +43,7 @@ const api = new Api({
   },
 });
 
-const imagePopup = new PopupWithImage(popupSelectors);
+const imagePopup = new PopupWithImage(".popup__image-zoom", popupConfig);
 
 const deleteCard = (card) => {
   api
@@ -125,7 +125,7 @@ Promise.all([api.getProfileRequest(), api.getCardsRequest()])
               user,
               deleteCard,
               likeEvent,
-              popupImage.openPopup(item)
+              imagePopup.openPopup(item)
             );
             const cardElement = card.generate();
             cardList.addItem(cardElement);
@@ -179,7 +179,7 @@ const handleImageForm = (evt) => {
               user,
               deleteCard,
               likeEvent,
-              popupImage.openPopup(item)
+              imagePopup.openPopup()
             );
             const cardElement = card.generate();
             newCard.addItem(cardElement);
