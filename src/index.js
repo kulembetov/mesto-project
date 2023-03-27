@@ -1,7 +1,9 @@
 import "../src/index.css";
 import FormValidator from "./components/FormValidator.js";
 import Api from "./components/Api.js";
+import Popup from "./components/Popup.js";
 import PopupWithImage from "./components/PopupWithImage.js";
+import PopupWithForm from "./components/PopupWithForm.js";
 import {
   errorImage,
   settings,
@@ -32,7 +34,7 @@ import {
 import Section from "./components/Section.js";
 import Card from "./components/Card.js";
 
-import { renderLoading, hideLoading } from "./components/utils.js";
+import { hideLoading } from "./components/utils.js";
 
 const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-20",
@@ -44,6 +46,9 @@ const api = new Api({
 
 const imagePopup = new PopupWithImage(".popup__image-zoom", popupConfig);
 imagePopup.setEventListeners();
+
+const avatarPopup = new PopupWithForm("#popup-avatar", popupConfig, handleAvatarForm);
+avatarPopup.setEventListeners();
 
 const deleteCard = (card) => {
   api
@@ -149,7 +154,7 @@ Promise.all([api.getProfileRequest(), api.getCardsRequest()])
 
 const handleProfileForm = (evt) => {
   evt.preventDefault();
-  renderLoading(true, evt);
+  renderLoading(true);
   api
     .setProfileRequest(nameInput.value, aboutInput.value)
     .then((res) => {
@@ -169,7 +174,7 @@ const handleProfileForm = (evt) => {
 
 const handleImageForm = (evt) => {
   evt.preventDefault();
-  renderLoading(true, evt);
+  renderLoading(true);
   api
     .addCardRequest(titleInput.value, imageLinkInput.value)
     .then((item) => {
@@ -205,21 +210,19 @@ const handleImageForm = (evt) => {
 
 // Обработчик формы с изменением изображения пользователя
 
-const handleAvatarForm = (evt) => {
-  evt.preventDefault();
-  renderLoading(true, evt);
+const handleAvatarForm = (formValues) => {
+  avatarPopup.renderLoading(true);
   api
-    .changeAvatarRequest(avatarLinkInput.value)
+    .changeAvatarRequest(formValues.avatar)
     .then((res) => {
       avatarElement.src = res.avatar;
-      closePopup(popupAvatar);
-      evt.target.reset();
+      avatarPopup.closePopup();
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(false, evt);
+      avatarPopup.renderLoading(false);
     });
 };
 
@@ -243,7 +246,7 @@ addButton.addEventListener("click", () => {
 
 avatarElement.addEventListener("click", () => {
   formValidators["avatar"].resetValidation();
-  openPopup(popupAvatar);
+  avatarPopup.openPopup();
 });
 
 // Добавление изображения с ошибкой
@@ -259,10 +262,6 @@ profileForm.addEventListener("submit", handleProfileForm);
 // Отправка формы добавления изображения
 
 imageForm.addEventListener("submit", handleImageForm);
-
-// Отправка формы изменения изображения профиля
-
-avatarForm.addEventListener("submit", handleAvatarForm);
 
 // Валидация форм
 forms.forEach((form) => {
