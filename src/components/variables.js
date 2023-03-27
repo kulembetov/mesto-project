@@ -30,6 +30,12 @@ const popupConfig = {
   popupCaptionSelector: ".popup__caption",
 };
 
+const userConfig = {
+  userNameSelector: ".profile__name",
+  userAboutSelector: ".profile__about",
+  userAvatarSelector: ".profile__avatar",
+};
+
 // Объект пользователя
 const user = {
   id: "",
@@ -71,6 +77,7 @@ export {
   settings,
   cardSelectors,
   popupConfig,
+  userConfig,
   user,
   cards,
   popups,
