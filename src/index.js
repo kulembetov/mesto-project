@@ -80,6 +80,43 @@ const profilePopup = new PopupWithForm("#popup-profile", popupConfig, {
 });
 profilePopup.setEventListeners();
 
+const imageAddPopup = new PopupWithForm("#popup-image-add", popupConfig, {
+  submitCallbackForm: (formValues) => {
+    imageAddPopup.renderLoading(true);
+    api
+      .addCardRequest(formValues.title, formValues.link)
+      .then((item) => {
+        const newCard = new Section(
+          {
+            items: item,
+            renderer: (item) => {
+              const card = new Card(
+                item,
+                cardSelectors,
+                user,
+                deleteCard,
+                likeEvent,
+                openImagePopup
+              );
+              const cardElement = card.generate();
+              newCard.addItem(cardElement);
+            },
+          },
+          ".cards"
+        );
+        newCard.renderNewItem();
+        imageAddPopup.closePopup();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        imageAddPopup.renderLoading(false);
+      });
+  },
+});
+imageAddPopup.setEventListeners();
+
 const deleteCard = (card) => {
   api
     .removeCardRequest(card._cardId)
@@ -177,11 +214,10 @@ const handleProfileForm = (formValues) => {
 
 // Обработчик формы с добавлением картинок
 
-const handleImageForm = (evt) => {
-  evt.preventDefault();
-  renderLoading(true);
+const handleImageForm = (formValues) => {
+  iamgeAddPopup.renderLoading(true);
   api
-    .addCardRequest(titleInput.value, imageLinkInput.value)
+    .addCardRequest(formValues.title, formValues.link)
     .then((item) => {
       const newCard = new Section(
         {
@@ -202,8 +238,7 @@ const handleImageForm = (evt) => {
         ".cards"
       );
       newCard.renderNewItem();
-      closePopup(popupImage);
-      evt.target.reset();
+      imagePopup.closePopup();
     })
     .catch((err) => {
       console.log(err);
@@ -244,7 +279,7 @@ editButton.addEventListener("click", () => {
 
 addButton.addEventListener("click", () => {
   formValidators["image"].resetValidation();
-  openPopup(popupImage);
+  imageAddPopup.openPopup();
 });
 
 // Открытие попапа с изменением изображения профиля
@@ -259,12 +294,6 @@ avatarElement.addEventListener("click", () => {
 avatarElement.addEventListener("error", () => {
   avatarElement.setAttribute("src", errorImage);
 });
-
-// Отправка формы редактирования профиля
-
-// Отправка формы добавления изображения
-
-imageForm.addEventListener("submit", handleImageForm);
 
 // Валидация форм
 forms.forEach((form) => {
