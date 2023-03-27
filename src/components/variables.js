@@ -41,10 +41,6 @@ const cards = document.querySelector(".cards");
 
 // Попапы
 const popups = document.querySelector(".popups");
-const popupProfile = document.querySelector("#popup-profile");
-const popupImage = document.querySelector("#popup-image-add");
-const popupImageZoom = document.querySelector("#popup-image-zoom");
-const popupAvatar = document.querySelector("#popup-avatar");
 
 // Кнопки
 const editButton = document.querySelector(".profile__button-edit");
@@ -78,10 +74,6 @@ export {
   user,
   cards,
   popups,
-  popupProfile,
-  popupImage,
-  popupImageZoom,
-  popupAvatar,
   editButton,
   addButton,
   closeButtonList,
