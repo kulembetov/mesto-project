@@ -271,8 +271,10 @@ const handleAvatarForm = (formValues) => {
 
 editButton.addEventListener("click", () => {
   formValidators["profile"].resetValidation();
-  nameInput.value = userInfo.getUserInfo();
-  aboutInput.value = userInfo.getUserInfo();
+  userInfo.getUserInfo().then((res) => {
+    nameInput.value = res.name;
+    aboutInput.value = res.about;
+  });
   profilePopup.openPopup();
 });
 
