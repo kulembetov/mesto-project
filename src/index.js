@@ -4,6 +4,7 @@ import Api from "./components/Api.js";
 import Popup from "./components/Popup.js";
 import PopupWithImage from "./components/PopupWithImage.js";
 import PopupWithForm from "./components/PopupWithForm.js";
+import UserInfo from "./components/UserInfo.js";
 import {
   errorImage,
   settings,
@@ -152,15 +153,19 @@ const likeEvent = (card) => {
   }
 };
 
+const userInfo = new UserInfo(userConfig, {
+  getUser: async () => {
+    const res = await api.getProfileRequest();
+    return res;
+  },
+});
+
 // Получение данных с сервера
 
 Promise.all([api.getProfileRequest(), api.getCardsRequest()])
   .then(([profile]) => {
-    nameElement.textContent = profile.name;
-    aboutElement.textContent = profile.about;
-    avatarElement.src = profile.avatar;
-    user.id = profile._id;
-    user.name = profile.name;
+    userInfo.setUserInfo(profile.name, profile.about);
+    userInfo.setUserAvatar(profile.avatar);
   })
   .then(() => {
     api.getCardsRequest().then((item) => {
@@ -197,8 +202,7 @@ const handleProfileForm = (formValues) => {
   api
     .setProfileRequest(formValues.name, formValues.about)
     .then((res) => {
-      nameElement.textContent = res.name;
-      aboutElement.textContent = res.about;
+      userInfo.setUserInfo(res.name, res.about);
       profilePopup.closePopup();
     })
     .catch((err) => {
@@ -252,7 +256,7 @@ const handleAvatarForm = (formValues) => {
   api
     .changeAvatarRequest(formValues.avatar)
     .then((res) => {
-      avatarElement.src = res.avatar;
+      userInfo.setUserAvatar(res.avatar);
       avatarPopup.closePopup();
     })
     .catch((err) => {
@@ -267,8 +271,8 @@ const handleAvatarForm = (formValues) => {
 
 editButton.addEventListener("click", () => {
   formValidators["profile"].resetValidation();
-  nameInput.value = nameElement.textContent;
-  aboutInput.value = aboutElement.textContent;
+  nameInput.value = userInfo.getUserInfo();
+  aboutInput.value = userInfo.getUserInfo();
   profilePopup.openPopup();
 });
 
