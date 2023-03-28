@@ -1,7 +1,6 @@
 import "../src/index.css";
 import FormValidator from "./components/FormValidator.js";
 import Api from "./components/Api.js";
-import Popup from "./components/Popup.js";
 import PopupWithImage from "./components/PopupWithImage.js";
 import PopupWithForm from "./components/PopupWithForm.js";
 import UserInfo from "./components/UserInfo.js";
@@ -36,81 +35,75 @@ const api = new Api({
   },
 });
 
-const imagePopup = new PopupWithImage(".popup__image-zoom", popupConfig);
-imagePopup.setEventListeners();
+const imageZoomPopup = new PopupWithImage(".popup__image-zoom", popupConfig);
+imageZoomPopup.setEventListeners();
 
 const avatarPopup = new PopupWithForm("#popup-avatar", popupConfig, {
-  submitCallbackForm: (formValues) => {
+  submitCallbackForm: async (formValues) => {
     avatarPopup.renderLoading(true);
-    api
-      .changeAvatarRequest(formValues.avatar)
-      .then((res) => {
-        avatarElement.src = res.avatar;
-        avatarPopup.closePopup();
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        avatarPopup.renderLoading(false);
-      });
+    try {
+      const res = await api.changeAvatarRequest(formValues.avatar);
+      avatarElement.src = res.avatar;
+      avatarPopup.closePopup();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      avatarPopup.renderLoading(false);
+    }
   },
 });
 avatarPopup.setEventListeners();
 
 const profilePopup = new PopupWithForm("#popup-profile", popupConfig, {
-  submitCallbackForm: (formValues) => {
+  submitCallbackForm: async (formValues) => {
     profilePopup.renderLoading(true);
-    api
-      .setProfileRequest(formValues.name, formValues.about)
-      .then((res) => {
-        nameElement.textContent = res.name;
-        aboutElement.textContent = res.about;
-        profilePopup.closePopup();
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        profilePopup.renderLoading(false);
-      });
+    try {
+      const res = await api.setProfileRequest(
+        formValues.name,
+        formValues.about
+      );
+      nameElement.textContent = res.name;
+      aboutElement.textContent = res.about;
+      profilePopup.closePopup();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      profilePopup.renderLoading(false);
+    }
   },
 });
 profilePopup.setEventListeners();
 
 const imageAddPopup = new PopupWithForm("#popup-image-add", popupConfig, {
-  submitCallbackForm: (formValues) => {
+  submitCallbackForm: async (formValues) => {
     imageAddPopup.renderLoading(true);
-    api
-      .addCardRequest(formValues.title, formValues.link)
-      .then((item) => {
-        const newCard = new Section(
-          {
-            items: item,
-            renderer: (item) => {
-              const card = new Card(
-                item,
-                cardSelectors,
-                user,
-                deleteCard,
-                likeEvent,
-                openImagePopup
-              );
-              const cardElement = card.generate();
-              newCard.addItem(cardElement);
-            },
+    try {
+      const res = await api.addCardRequest(formValues.title, formValues.link);
+      const newCard = new Section(
+        {
+          items: res,
+          renderer: (res) => {
+            const card = new Card(
+              res,
+              cardSelectors,
+              user,
+              deleteCard,
+              likeEvent,
+              openZoomImagePopup
+            );
+            const cardElement = card.generate();
+            newCard.addItem(cardElement);
           },
-          ".cards"
-        );
-        newCard.renderNewItem();
-        imageAddPopup.closePopup();
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        imageAddPopup.renderLoading(false);
-      });
+        },
+        cardSelectors.cardsContainerSelector
+      );
+      newCard.renderNewItem();
+      imageAddPopup.closePopup();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      imageAddPopup.renderLoading(false);
+    }
   },
 });
 imageAddPopup.setEventListeners();
@@ -126,8 +119,8 @@ const deleteCard = (card) => {
     });
 };
 
-const openImagePopup = (card) => {
-  imagePopup.openPopup(card._title, card._link);
+const openZoomImagePopup = (card) => {
+  imageZoomPopup.openPopup(card._title, card._link);
 };
 
 const likeEvent = (card) => {
@@ -162,110 +155,40 @@ const userInfo = new UserInfo(userConfig, {
 
 // Получение данных с сервера
 
-Promise.all([api.getProfileRequest(), api.getCardsRequest()])
-  .then(([profile]) => {
+async function renderElements() {
+  try {
+    const [profile, cards] = await Promise.all([
+      api.getProfileRequest(),
+      api.getCardsRequest(),
+    ]);
     userInfo.setUserInfo(profile.name, profile.about);
     userInfo.setUserAvatar(profile.avatar);
-  })
-  .then(() => {
-    api.getCardsRequest().then((item) => {
-      const cardList = new Section(
-        {
-          items: item.reverse(),
-          renderer: (item) => {
-            const card = new Card(
-              item,
-              cardSelectors,
-              user,
-              deleteCard,
-              likeEvent,
-              openImagePopup
-            );
-            const cardElement = card.generate();
-            cardList.addItem(cardElement);
-          },
+    const cardList = new Section(
+      {
+        items: cards.reverse(),
+        renderer: (cards) => {
+          const card = new Card(
+            cards,
+            cardSelectors,
+            user,
+            deleteCard,
+            likeEvent,
+            openZoomImagePopup
+          );
+          const cardElement = card.generate();
+          cardList.addItem(cardElement);
         },
-        ".cards"
-      );
-      cardList.renderItems();
-      hideLoading();
-    });
-  })
-  .catch((rej) => {
-    console.log(rej);
-  });
+      },
+      cardSelectors.cardsContainerSelector
+    );
+    cardList.renderItems();
+    hideLoading();
+  } catch (err) {
+    console.log(err);
+  }
+}
 
-// Обработчик формы профиля
-
-const handleProfileForm = (formValues) => {
-  profilePopup.renderLoading(true);
-  api
-    .setProfileRequest(formValues.name, formValues.about)
-    .then((res) => {
-      userInfo.setUserInfo(res.name, res.about);
-      profilePopup.closePopup();
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      profilePopup.renderLoading(false);
-    });
-};
-
-// Обработчик формы с добавлением картинок
-
-const handleImageForm = (formValues) => {
-  iamgeAddPopup.renderLoading(true);
-  api
-    .addCardRequest(formValues.title, formValues.link)
-    .then((item) => {
-      const newCard = new Section(
-        {
-          items: item,
-          renderer: (item) => {
-            const card = new Card(
-              item,
-              cardSelectors,
-              user,
-              deleteCard,
-              likeEvent,
-              openImagePopup
-            );
-            const cardElement = card.generate();
-            newCard.addItem(cardElement);
-          },
-        },
-        ".cards"
-      );
-      newCard.renderNewItem();
-      imagePopup.closePopup();
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      renderLoading(false, evt);
-    });
-};
-
-// Обработчик формы с изменением изображения пользователя
-
-const handleAvatarForm = (formValues) => {
-  avatarPopup.renderLoading(true);
-  api
-    .changeAvatarRequest(formValues.avatar)
-    .then((res) => {
-      userInfo.setUserAvatar(res.avatar);
-      avatarPopup.closePopup();
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      avatarPopup.renderLoading(false);
-    });
-};
+renderElements();
 
 // Открытие попапа с изменением информации в профиле
 
@@ -274,8 +197,8 @@ editButton.addEventListener("click", () => {
   userInfo.getUserInfo().then((res) => {
     nameInput.value = res.name;
     aboutInput.value = res.about;
+    profilePopup.openPopup();
   });
-  profilePopup.openPopup();
 });
 
 // Открытие попапа с добавлением картинок

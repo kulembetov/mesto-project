@@ -21,6 +21,7 @@ const cardSelectors = {
   likeButtonActiveClass: "cards__button-like_active",
   cardLikesCounterSelector: ".cards__likes-counter",
   cardLikesCounterActiveClass: "cards__likes-counter_active",
+  cardsContainerSelector: ".cards",
 };
 
 const popupConfig = {
