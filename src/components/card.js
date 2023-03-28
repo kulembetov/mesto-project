@@ -24,7 +24,7 @@ export default class Card {
     this._cardLikesCounterActiveClass =
       cardSelectors.cardLikesCounterActiveClass;
 
-    this._userId = user.id;
+    this._userId = user._id;
 
     this._likeStatus = this._checkMyLike();
     this._handleCardRemove = handleCardRemove;

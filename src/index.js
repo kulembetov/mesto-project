@@ -78,6 +78,7 @@ const imageAddPopup = new PopupWithForm("#popup-image-add", popupConfig, {
   submitCallbackForm: async (formValues) => {
     imageAddPopup.renderLoading(true);
     try {
+      const userId = await userInfo.getUserInfo();
       const res = await api.addCardRequest(formValues.title, formValues.link);
       const newCard = new Section(
         {
@@ -86,7 +87,7 @@ const imageAddPopup = new PopupWithForm("#popup-image-add", popupConfig, {
             const card = new Card(
               res,
               cardSelectors,
-              user,
+              userId,
               deleteCard,
               likeEvent,
               openZoomImagePopup
@@ -170,7 +171,7 @@ async function renderElements() {
           const card = new Card(
             cards,
             cardSelectors,
-            user,
+            profile,
             deleteCard,
             likeEvent,
             openZoomImagePopup
