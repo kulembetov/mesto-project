@@ -3,6 +3,7 @@ import FormValidator from "./components/FormValidator.js";
 import Api from "./components/Api.js";
 import PopupWithImage from "./components/PopupWithImage.js";
 import PopupWithForm from "./components/PopupWithForm.js";
+import PopupWithSubmit from "./components/PopupWithSubmit.js";
 import UserInfo from "./components/UserInfo.js";
 import {
   errorImage,
@@ -37,6 +38,21 @@ const api = new Api({
 
 const imageZoomPopup = new PopupWithImage(".popup__image-zoom", popupConfig);
 imageZoomPopup.setEventListeners();
+
+const submitPopup = new PopupWithSubmit("#popup-confirmation", popupConfig, {
+  submitCallbackForm: async (card) => {
+    submitPopup.renderLoading(true);
+    try {
+      const res = await api.removeCardRequest(card._cardId);
+      card.removeCard(res);
+      submitPopup.closePopup();
+    } catch (err) {
+      console.log(err);
+    }
+  },
+});
+
+submitPopup.setEventListeners();
 
 const avatarPopup = new PopupWithForm("#popup-avatar", popupConfig, {
   submitCallbackForm: async (formValues) => {
@@ -228,3 +244,15 @@ forms.forEach((form) => {
   formValidators[form.id] = formValidator;
   formValidator.enableValidation();
 });
+
+// submitPopup.setEventListeners();
+
+// const openSubmitPopup = () => {
+//   submitPopup.openPopup();
+// };
+
+// Открытие попапа с подтверждением удаления
+
+// deleteButton.addEventListener("click", () => {
+//   submitPopup.openPopup();
+// });
