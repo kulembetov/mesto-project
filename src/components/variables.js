@@ -42,12 +42,6 @@ const user = {
   name: "",
 };
 
-// Карточки
-const cards = document.querySelector(".cards");
-
-// Попапы
-const popups = document.querySelector(".popups");
-
 // Кнопки
 const editButton = document.querySelector(".profile__button-edit");
 const addButton = document.querySelector(".profile__button-add");
@@ -79,8 +73,6 @@ export {
   popupConfig,
   userConfig,
   user,
-  cards,
-  popups,
   editButton,
   addButton,
   closeButtonList,
