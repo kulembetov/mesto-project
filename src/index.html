@@ -208,6 +208,23 @@
         </figure>
       </div>
     </div>
+    <div class="popup" id="popup-confirmation">
+      <div class="popup__overlay">
+        <form class="popup__form" id="form_confirmation" name="confirmation">
+          <h2 class="popup__title">Вы уверены?</h2>
+          <fieldset class="popup__fieldset">
+            <button
+            class="popup__button-submit"
+            type="submit" data-save="Да"
+            data-saving="Удаление...">Да</button>
+            <button
+            class="popup__button-close"
+            type="button"
+            aria-label="Кнопка закрытия"></button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
     <template id="cards-template">
       <li class="cards__item">
         <img class="cards__image" src="" alt="" />
