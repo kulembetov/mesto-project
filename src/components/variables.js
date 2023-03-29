@@ -39,12 +39,6 @@ const userConfig = {
   userAvatarSelector: '.profile__avatar',
 };
 
-// Объект пользователя
-const user = {
-  id: '',
-  name: '',
-};
-
 // Кнопки
 const editButton = document.querySelector('.profile__button-edit');
 const addButton = document.querySelector('.profile__button-add');
@@ -70,7 +64,6 @@ const aboutElement = document.querySelector('.profile__about');
 export {
   errorImage,
   settings,
-  user,
   popupConfig,
   userConfig,
   cardSelectors,

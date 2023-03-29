@@ -3,7 +3,7 @@ import FormValidator from './components/FormValidator.js';
 import Api from './components/Api.js';
 import PopupWithImage from './components/PopupWithImage.js';
 import PopupWithForm from './components/PopupWithForm.js';
-import PopupWithSubmit from './components/PopupWithSubmit.js';
+import PopupWithConfirmation from './components/PopupWithConfirmation.js';
 import UserInfo from './components/UserInfo.js';
 import Section from './components/Section.js';
 import Card from './components/Card.js';
@@ -37,22 +37,25 @@ const api = new Api({
 const imageZoomPopup = new PopupWithImage('#popup-image-zoom', popupConfig);
 imageZoomPopup.setEventListeners();
 
-// Экземпляр класса PopupWithSubmit
-const submitPopup = new PopupWithSubmit('#popup-confirmation', popupConfig, {
-  submitCallbackForm: async (card) => {
-    submitPopup.renderLoading(true);
-    try {
-      const res = await api.removeCardRequest(card._cardId);
-      card.removeCard(res);
-      submitPopup.closePopup();
-    } catch (err) {
-      console.log(err);
-    } finally {
-      submitPopup.renderLoading(false)
-    }
-  },
-});
-submitPopup.setEventListeners();
+// Экземпляр класса PopupWithConfirmation
+const confirmationDeletePopup = new PopupWithConfirmation('#popup-confirmation',
+  popupConfig,
+  {
+    submitCallbackForm: async (card) => {
+      confirmationDeletePopup.renderLoading(true);
+      try {
+        const res = await api.removeCardRequest(card._cardId);
+        card.removeCard(res);
+        confirmationDeletePopup.closePopup();
+      } catch (err) {
+        console.log(err);
+      } finally {
+        confirmationDeletePopup.renderLoading(false);
+      }
+    },
+  }
+);
+confirmationDeletePopup.setEventListeners();
 
 // Экземпляр класса PopupWithForm
 const avatarPopup = new PopupWithForm('#popup-avatar', popupConfig, {
@@ -97,7 +100,7 @@ const imageAddPopup = new PopupWithForm('#popup-image-add', popupConfig, {
   submitCallbackForm: async (formValues) => {
     imageAddPopup.renderLoading(true);
     try {
-      const userId = await userInfo.getUserInfo();
+      const user = await userInfo.getUserInfo();
       const res = await api.addCardRequest(formValues.title, formValues.link);
       const newCard = new Section(
         {
@@ -106,7 +109,7 @@ const imageAddPopup = new PopupWithForm('#popup-image-add', popupConfig, {
             const card = new Card(
               res,
               cardSelectors,
-              userId,
+              user,
               deleteCard,
               likeEvent,
               openImageZoomPopup
@@ -130,8 +133,8 @@ imageAddPopup.setEventListeners();
 
 // Удаление карточки
 const deleteCard = (card) => {
-  submitPopup.openPopup();
-  submitPopup.setCard(card)
+  confirmationDeletePopup.openPopup();
+  confirmationDeletePopup.setCard(card);
 };
 
 const likeEvent = (card) => {
@@ -139,7 +142,6 @@ const likeEvent = (card) => {
     api
       .removeLikeRequest(card._cardId)
       .then((res) => {
-        console.log(res);
         card.removeLike(res);
       })
       .catch((err) => {
@@ -239,15 +241,3 @@ forms.forEach((form) => {
   formValidators[form.id] = formValidator;
   formValidator.enableValidation();
 });
-
-// submitPopup.setEventListeners();
-
-// const openSubmitPopup = () => {
-//   submitPopup.openPopup();
-// };
-
-// Открытие попапа с подтверждением удаления
-
-// deleteButton.addEventListener('click', () => {
-//   submitPopup.openPopup();
-// });

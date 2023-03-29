@@ -23,6 +23,7 @@ export default class Popup {
     }
   };
 
+  // Установка слушателей
   setEventListeners() {
     this._popupItem.addEventListener('mousedown', (evt) => {
       if (evt.target.classList.contains(this._popupOpenedClass)) {
@@ -34,6 +35,7 @@ export default class Popup {
     });
   }
 
+  // Изменение состояния кнопки сабмита
   renderLoading(isLoading) {
     if (isLoading) {
       this._submitButton.textContent = this._submitButton.dataset.saving;

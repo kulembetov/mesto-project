@@ -1,12 +1,13 @@
 import Popup from './Popup.js';
 
-export default class PopupWithSubmit extends Popup {
+export default class PopupWithConfirmation extends Popup {
   constructor(popupSelector, popupConfig, {submitCallbackForm}) {
     super(popupSelector, popupConfig);
     this._formElement = this._popupItem.querySelector(popupConfig.popupFormSelector);
     this._submitCallbackForm = submitCallbackForm;
   }
 
+  // Определяет карточку
   setCard(card) {
     this._card = card
   }

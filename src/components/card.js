@@ -2,7 +2,6 @@ export default class Card {
   constructor(
     data,
     cardSelectors,
-    user,
     handleCardRemove,
     handleLikeClick,
     handleCardClick
