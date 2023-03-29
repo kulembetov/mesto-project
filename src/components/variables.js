@@ -25,6 +25,8 @@ const cardSelectors = {
 };
 
 const popupConfig = {
+  popupFormSelector: '.popup__form',
+  popupSubmitButtonSelector: '.popup__button-submit',
   popupImageSelector: '.popup__image',
   popupCaptionSelector: '.popup__caption',
   popupOpenedClass: 'popup_opened',

@@ -5,6 +5,8 @@ import PopupWithImage from './components/PopupWithImage.js';
 import PopupWithForm from './components/PopupWithForm.js';
 import PopupWithSubmit from './components/PopupWithSubmit.js';
 import UserInfo from './components/UserInfo.js';
+import Section from './components/Section.js';
+import Card from './components/Card.js';
 import {
   errorImage,
   settings,
@@ -21,10 +23,6 @@ import {
   nameElement,
   aboutElement,
 } from './components/variables.js';
-
-import Section from './components/Section.js';
-import Card from './components/Card.js';
-
 import { hideLoading } from './components/utils.js';
 
 const api = new Api({
@@ -44,6 +42,7 @@ const submitPopup = new PopupWithSubmit('#popup-confirmation', popupConfig, {
   submitCallbackForm: async (card) => {
     submitPopup.renderLoading(true);
     try {
+      console.log(card)
       const res = await api.removeCardRequest(card._cardId);
       card.removeCard(res);
       submitPopup.closePopup();
@@ -52,7 +51,6 @@ const submitPopup = new PopupWithSubmit('#popup-confirmation', popupConfig, {
     }
   },
 });
-
 submitPopup.setEventListeners();
 
 // Экземпляр класса PopupWithForm
@@ -130,15 +128,8 @@ const imageAddPopup = new PopupWithForm('#popup-image-add', popupConfig, {
 imageAddPopup.setEventListeners();
 
 // Удаление карточки
-const deleteCard = (card) => {
-  api
-    .removeCardRequest(card._cardId)
-    .then(() => {
-      card.removeCard();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+const deleteCard = () => {
+  submitPopup.openPopup();
 };
 
 const likeEvent = (card) => {
