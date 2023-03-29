@@ -96,7 +96,7 @@ export default class Card {
       this._cardLikesCounter.classList.remove(
         this._cardLikesCounterActiveClass
       );
-      this._cardLikesCounter.textContent = "";
+      this._cardLikesCounter.textContent = '';
     }
   }
 
@@ -125,15 +125,15 @@ export default class Card {
 
   // Установка слушателей
   _setEventListeners() {
-    this._likeButton.addEventListener("click", () => {
+    this._likeButton.addEventListener('click', () => {
       this._handleLikeClick(this);
     });
 
-    this._deleteButton.addEventListener("click", () => {
+    this._deleteButton.addEventListener('click', () => {
       this._handleCardRemove(this);
     });
 
-    this._cardImage.addEventListener("click", () => {
+    this._cardImage.addEventListener('click', () => {
       this._handleCardClick(this);
     });
   }

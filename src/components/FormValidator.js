@@ -35,7 +35,7 @@ export default class FormValidator {
     const error = this._form.querySelector(`#${input.id}-error`);
     input.classList.remove(this._inputErrorClass);
     error.classList.remove(this._errorClass);
-    error.textContent = "";
+    error.textContent = '';
   }
 
   // Валидация
@@ -43,7 +43,7 @@ export default class FormValidator {
     if (input.validity.patternMismatch) {
       input.setCustomValidity(input.dataset.errorMessage);
     } else {
-      input.setCustomValidity("");
+      input.setCustomValidity('');
     }
     if (!input.validity.valid) {
       this._showInputError(input, input.validationMessage);
@@ -72,13 +72,13 @@ export default class FormValidator {
   // Установка слушателей
   _setEventListeners() {
     this._toggleButtonState();
-    this._form.addEventListener("reset", () => {
+    this._form.addEventListener('reset', () => {
       setTimeout(() => {
         this._toggleButtonState();
       }, 0);
     });
     this._inputList.forEach((input) => {
-      input.addEventListener("input", () => {
+      input.addEventListener('input', () => {
         this._checkInputValidity(input);
         this._toggleButtonState();
       });
@@ -88,10 +88,10 @@ export default class FormValidator {
   // Включение валидации и отключение стандартной браузерной
   enableValidation() {
     this._formList.forEach((form) => {
-      form.setAttribute("novalidate", true);
+      form.setAttribute('novalidate', true);
     });
     this._formList.forEach((form) => {
-      form.addEventListener("submit", (evt) => {
+      form.addEventListener('submit', (evt) => {
         evt.preventDefault();
       });
       this._setEventListeners();

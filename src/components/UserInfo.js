@@ -11,11 +11,13 @@ export default class UserInfo {
     return this._user;
   }
 
+  // Добавление информации о пользователе
   setUserInfo(name, about) {
     this._userName.textContent = name;
     this._userAbout.textContent = about;
   }
 
+  // Добавление изображения пользователя
   setUserAvatar(avatar) {
     this._userAvatar.src = avatar;
   }

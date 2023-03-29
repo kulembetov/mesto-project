@@ -1,14 +1,14 @@
-import "../src/index.css";
-import FormValidator from "./components/FormValidator.js";
-import Api from "./components/Api.js";
-import PopupWithImage from "./components/PopupWithImage.js";
-import PopupWithForm from "./components/PopupWithForm.js";
-import PopupWithSubmit from "./components/PopupWithSubmit.js";
-import UserInfo from "./components/UserInfo.js";
+import '../src/index.css';
+import FormValidator from './components/FormValidator.js';
+import Api from './components/Api.js';
+import PopupWithImage from './components/PopupWithImage.js';
+import PopupWithForm from './components/PopupWithForm.js';
+import PopupWithSubmit from './components/PopupWithSubmit.js';
+import UserInfo from './components/UserInfo.js';
 import {
   errorImage,
   settings,
-  user,
+  cardSelectors,
   popupConfig,
   userConfig,
   editButton,
@@ -20,26 +20,27 @@ import {
   avatarElement,
   nameElement,
   aboutElement,
-  cardSelectors,
-} from "./components/variables.js";
+} from './components/variables.js';
 
-import Section from "./components/Section.js";
-import Card from "./components/Card.js";
+import Section from './components/Section.js';
+import Card from './components/Card.js';
 
-import { hideLoading } from "./components/utils.js";
+import { hideLoading } from './components/utils.js';
 
 const api = new Api({
-  baseUrl: "https://nomoreparties.co/v1/plus-cohort-20",
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-20',
   headers: {
-    authorization: "7705f7d6-50a3-4e15-b4ba-203407e7d971",
-    "Content-Type": "application/json",
+    authorization: '7705f7d6-50a3-4e15-b4ba-203407e7d971',
+    'Content-Type': 'application/json',
   },
 });
 
-const imageZoomPopup = new PopupWithImage(".popup__image-zoom", popupConfig);
+// Экземпляр класса PopupWithImage
+const imageZoomPopup = new PopupWithImage('#popup-image-zoom', popupConfig);
 imageZoomPopup.setEventListeners();
 
-const submitPopup = new PopupWithSubmit("#popup-confirmation", popupConfig, {
+// Экземпляр класса PopupWithSubmit
+const submitPopup = new PopupWithSubmit('#popup-confirmation', popupConfig, {
   submitCallbackForm: async (card) => {
     submitPopup.renderLoading(true);
     try {
@@ -54,7 +55,8 @@ const submitPopup = new PopupWithSubmit("#popup-confirmation", popupConfig, {
 
 submitPopup.setEventListeners();
 
-const avatarPopup = new PopupWithForm("#popup-avatar", popupConfig, {
+// Экземпляр класса PopupWithForm
+const avatarPopup = new PopupWithForm('#popup-avatar', popupConfig, {
   submitCallbackForm: async (formValues) => {
     avatarPopup.renderLoading(true);
     try {
@@ -70,7 +72,8 @@ const avatarPopup = new PopupWithForm("#popup-avatar", popupConfig, {
 });
 avatarPopup.setEventListeners();
 
-const profilePopup = new PopupWithForm("#popup-profile", popupConfig, {
+// Экземпляр класса PopupWithForm
+const profilePopup = new PopupWithForm('#popup-profile', popupConfig, {
   submitCallbackForm: async (formValues) => {
     profilePopup.renderLoading(true);
     try {
@@ -90,7 +93,8 @@ const profilePopup = new PopupWithForm("#popup-profile", popupConfig, {
 });
 profilePopup.setEventListeners();
 
-const imageAddPopup = new PopupWithForm("#popup-image-add", popupConfig, {
+// Экземпляр класса PopupWithForm
+const imageAddPopup = new PopupWithForm('#popup-image-add', popupConfig, {
   submitCallbackForm: async (formValues) => {
     imageAddPopup.renderLoading(true);
     try {
@@ -106,7 +110,7 @@ const imageAddPopup = new PopupWithForm("#popup-image-add", popupConfig, {
               userId,
               deleteCard,
               likeEvent,
-              openZoomImagePopup
+              openImageZoomPopup
             );
             const cardElement = card.generate();
             newCard.addItem(cardElement);
@@ -125,6 +129,7 @@ const imageAddPopup = new PopupWithForm("#popup-image-add", popupConfig, {
 });
 imageAddPopup.setEventListeners();
 
+// Удаление карточки
 const deleteCard = (card) => {
   api
     .removeCardRequest(card._cardId)
@@ -134,10 +139,6 @@ const deleteCard = (card) => {
     .catch((err) => {
       console.log(err);
     });
-};
-
-const openZoomImagePopup = (card) => {
-  imageZoomPopup.openPopup(card._title, card._link);
 };
 
 const likeEvent = (card) => {
@@ -163,6 +164,7 @@ const likeEvent = (card) => {
   }
 };
 
+// Экземпляр класса UserInfo
 const userInfo = new UserInfo(userConfig, {
   getUser: async () => {
     const res = await api.getProfileRequest();
@@ -170,8 +172,7 @@ const userInfo = new UserInfo(userConfig, {
   },
 });
 
-// Получение данных с сервера
-
+// Отрисовка элементов на странице
 async function renderElements() {
   try {
     const [profile, cards] = await Promise.all([
@@ -190,7 +191,7 @@ async function renderElements() {
             profile,
             deleteCard,
             likeEvent,
-            openZoomImagePopup
+            openImageZoomPopup
           );
           const cardElement = card.generate();
           cardList.addItem(cardElement);
@@ -208,9 +209,8 @@ async function renderElements() {
 renderElements();
 
 // Открытие попапа с изменением информации в профиле
-
-editButton.addEventListener("click", () => {
-  formValidators["profile"].resetValidation();
+editButton.addEventListener('click', () => {
+  formValidators['profile'].resetValidation();
   userInfo.getUserInfo().then((res) => {
     nameInput.value = res.name;
     aboutInput.value = res.about;
@@ -219,24 +219,26 @@ editButton.addEventListener("click", () => {
 });
 
 // Открытие попапа с добавлением картинок
-
-addButton.addEventListener("click", () => {
-  formValidators["image"].resetValidation();
+addButton.addEventListener('click', () => {
+  formValidators['image'].resetValidation();
   imageAddPopup.openPopup();
 });
 
 // Открытие попапа с изменением изображения профиля
-
-avatarElement.addEventListener("click", () => {
-  formValidators["avatar"].resetValidation();
+avatarElement.addEventListener('click', () => {
+  formValidators['avatar'].resetValidation();
   avatarPopup.openPopup();
 });
 
 // Добавление изображения с ошибкой
-
-avatarElement.addEventListener("error", () => {
-  avatarElement.setAttribute("src", errorImage);
+avatarElement.addEventListener('error', () => {
+  avatarElement.setAttribute('src', errorImage);
 });
+
+// Открытие попапа с открытым изображением
+const openImageZoomPopup = (card) => {
+  imageZoomPopup.openPopup(card._title, card._link);
+};
 
 // Валидация форм
 forms.forEach((form) => {
@@ -253,6 +255,6 @@ forms.forEach((form) => {
 
 // Открытие попапа с подтверждением удаления
 
-// deleteButton.addEventListener("click", () => {
+// deleteButton.addEventListener('click', () => {
 //   submitPopup.openPopup();
 // });

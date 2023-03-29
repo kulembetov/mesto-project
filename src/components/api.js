@@ -18,7 +18,7 @@ export default class Api {
   // Получение данных профиля
   getProfileRequest() {
     return this._request(`${this._baseUrl}/users/me`, {
-      method: "GET",
+      method: 'GET',
       headers: this._headers,
     });
   }
@@ -26,7 +26,7 @@ export default class Api {
   // Изменение данных профиля
   setProfileRequest(nameInput, aboutInput) {
     return this._request(`${this._baseUrl}/users/me`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         name: nameInput,
@@ -38,7 +38,7 @@ export default class Api {
   // Обновление изображения профиля
   changeAvatarRequest(linkInput) {
     return this._request(`${this._baseUrl}/users/me/avatar`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         avatar: linkInput,
@@ -49,7 +49,7 @@ export default class Api {
   // Получение карточек
   getCardsRequest() {
     return this._request(`${this._baseUrl}/cards`, {
-      method: "GET",
+      method: 'GET',
       headers: this._headers,
     });
   }
@@ -57,7 +57,7 @@ export default class Api {
   // Добавление карточек
   addCardRequest(titleInput, linkInput) {
     return this._request(`${this._baseUrl}/cards`, {
-      method: "POST",
+      method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
         name: titleInput,
@@ -69,7 +69,7 @@ export default class Api {
   // Удаление карточки
   removeCardRequest(cardId) {
     return this._request(`${this._baseUrl}/cards/${cardId}`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: this._headers,
     });
   }
@@ -77,7 +77,7 @@ export default class Api {
   // Установка лайка
   setLikeRequest(cardId) {
     return this._request(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: "PUT",
+      method: 'PUT',
       headers: this._headers,
     });
   }
@@ -85,7 +85,7 @@ export default class Api {
   // Снятие лайка
   removeLikeRequest(cardId) {
     return this._request(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: this._headers,
     });
   }
