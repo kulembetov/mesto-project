@@ -42,12 +42,13 @@ const submitPopup = new PopupWithSubmit('#popup-confirmation', popupConfig, {
   submitCallbackForm: async (card) => {
     submitPopup.renderLoading(true);
     try {
-      console.log(card)
       const res = await api.removeCardRequest(card._cardId);
       card.removeCard(res);
       submitPopup.closePopup();
     } catch (err) {
       console.log(err);
+    } finally {
+      submitPopup.renderLoading(false)
     }
   },
 });
@@ -128,8 +129,9 @@ const imageAddPopup = new PopupWithForm('#popup-image-add', popupConfig, {
 imageAddPopup.setEventListeners();
 
 // Удаление карточки
-const deleteCard = () => {
+const deleteCard = (card) => {
   submitPopup.openPopup();
+  submitPopup.setCard(card)
 };
 
 const likeEvent = (card) => {

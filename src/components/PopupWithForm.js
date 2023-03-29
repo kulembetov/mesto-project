@@ -4,7 +4,6 @@ export default class PopupWithForm extends Popup {
     super(popupSelector, popupConfig);
     this._formElement = this._popupItem.querySelector(popupConfig.popupFormSelector);
     this._formInputs = this._formElement.querySelectorAll('.popup__input');
-    this._submitButton = this._popupItem.querySelector(popupConfig.popupSubmitButtonSelector);
     this._submitCallbackForm = submitCallbackForm;
   }
 
@@ -31,14 +30,5 @@ export default class PopupWithForm extends Popup {
   closePopup() {
     super.closePopup();
     this._formElement.reset();
-  }
-
-  // Изменение состояния кнопки сабмита
-  renderLoading(isLoading) {
-    if (isLoading) {
-      this._submitButton.textContent = this._submitButton.dataset.saving;
-    } else {
-      this._submitButton.textContent = this._submitButton.dataset.save;
-    }
   }
 }

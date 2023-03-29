@@ -5,22 +5,17 @@ export default class PopupWithSubmit extends Popup {
     super(popupSelector, popupConfig);
     this._formElement = this._popupItem.querySelector(popupConfig.popupFormSelector);
     this._submitCallbackForm = submitCallbackForm;
-    this._submitButton = this._popupItem.querySelector(popupConfig.popupSubmitButtonSelector)
+  }
+
+  setCard(card) {
+    this._card = card
   }
 
   // Установка слушателей
   setEventListeners() {
     super.setEventListeners();
     this._formElement.addEventListener('submit', () => {
-      this._submitCallbackForm()
+      this._submitCallbackForm(this._card)
     });
-  }
-
-  renderLoading(isLoading) {
-    if (isLoading) {
-      this._submitButton.textContent = this._submitButton.dataset.saving;
-    } else {
-      this._submitButton.textContent = this._submitButton.dataset.save;
-    }
   }
 }
