@@ -19,7 +19,6 @@ export default class FormValidator {
     this._inputSelector = inputSelector;
     this._inputList = Array.from(form.querySelectorAll(this._inputSelector));
     this._formSelector = formSelector;
-    this._formList = Array.from(document.querySelectorAll(this._formSelector));
   }
 
   // Показать сообщение об ошибке
@@ -87,16 +86,8 @@ export default class FormValidator {
 
   // Включение валидации и отключение стандартной браузерной
   enableValidation() {
-    this._formList.forEach((form) => {
-      form.setAttribute('novalidate', true);
-    });
-    this._formList.forEach((form) => {
-      form.addEventListener('submit', (evt) => {
-        evt.preventDefault();
-      });
       this._setEventListeners();
-    });
-  }
+    }
 
   // Сброс валидации
   resetValidation() {

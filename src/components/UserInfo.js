@@ -1,14 +1,17 @@
 export default class UserInfo {
-  constructor(userConfig, { getUser }) {
+  constructor(userConfig) {
     this._userName = document.querySelector(userConfig.userNameSelector);
     this._userAbout = document.querySelector(userConfig.userAboutSelector);
     this._userAvatar = document.querySelector(userConfig.userAvatarSelector);
-    this._getUser = getUser;
   }
 
-  async getUserInfo() {
-    this._user = await this._getUser();
-    return this._user;
+  getUserInfo() {
+    return {
+      userName: this._userName.textContent,
+      userAbout: this._userAbout.textContent,
+      userAvatar: this._userAvatar.src,
+      userId: this._userId
+    }
   }
 
   // Добавление информации о пользователе

@@ -33,17 +33,17 @@
   </footer>
   <div class="popup" id="popup-profile">
     <div class="popup__overlay">
-      <form class="popup__form" id="profile" name="profile">
+      <form class="popup__form" id="profile" name="profile" novalidate>
         <h2 class="popup__title">Редактировать профиль</h2>
         <fieldset class="popup__fieldset">
           <label class="popup__field">
-            <input class="popup__input" id="name" name="name" type="text" minlength="2" maxlength="40" placeholder="Имя"
+            <input class="popup__input" id="name" name="userName" type="text" minlength="2" maxlength="40" placeholder="Имя"
               data-error-message="Разрешены только кириллица, латиница, проблелы и дефисы"
               pattern="^[\s\-a-zA-Zа-яА-ЯЁё]+$" required />
             <span id="name-error" class="popup__input-error popup__error"></span>
           </label>
           <label class="popup__field">
-            <input class="popup__input" id="about" name="about" type="text" minlength="2" maxlength="200"
+            <input class="popup__input" id="about" name="userAbout" type="text" minlength="2" maxlength="200"
               placeholder="О себе" data-error-message="Разрешены только кириллица, латиница, проблелы и дефисы"
               pattern="^[\s\-a-zA-Zа-яА-ЯЁё]+$" required />
             <span id="about-error" class="popup__input-error popup__error"></span>
@@ -58,7 +58,7 @@
   </div>
   <div class="popup" id="popup-image-add">
     <div class="popup__overlay">
-      <form class="popup__form" id="image" name="image">
+      <form class="popup__form" id="image" name="image" novalidate>
         <h2 class="popup__title">Новое место</h2>
         <fieldset class="popup__fieldset">
           <label class="popup__field">
@@ -84,7 +84,7 @@
   </div>
   <div class="popup" id="popup-avatar">
     <div class="popup__overlay">
-      <form class="popup__form" id="avatar" name="avatar">
+      <form class="popup__form" id="avatar" name="avatar" novalidate>
         <h2 class="popup__title">Обновить аватар</h2>
         <fieldset class="popup__fieldset">
           <label class="popup__field">
@@ -113,7 +113,7 @@
   </div>
   <div class="popup" id="popup-confirmation">
     <div class="popup__overlay">
-      <form class="popup__form" id="form_confirmation" name="confirmation">
+      <form class="popup__form" id="form_confirmation" name="confirmation" novalidate>
         <h2 class="popup__title">Вы уверены?</h2>
         <fieldset class="popup__fieldset">
           <button class="popup__button-submit" type="submit" data-save="Да" data-saving="Удаление...">Да</button>

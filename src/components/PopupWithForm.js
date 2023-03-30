@@ -17,6 +17,13 @@ export default class PopupWithForm extends Popup {
     return this._formValues;
   }
 
+  // Вставка значений инпутов
+  setInputValues(data) {
+    this._formInputs.forEach((input) => {
+      input.value = data[input.name];
+    });
+  }
+
   // Установка слушателей
   setEventListeners() {
     super.setEventListeners();
