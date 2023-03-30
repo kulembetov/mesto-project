@@ -2,7 +2,7 @@ export default class Card {
   constructor(
     data,
     cardSelectors,
-    user,
+    userId,
     handleCardRemove,
     handleLikeClick,
     handleCardClick
@@ -24,7 +24,9 @@ export default class Card {
     this._cardLikesCounterActiveClass =
       cardSelectors.cardLikesCounterActiveClass;
 
-    this._userId = user._id;
+    this._userId = userId;
+
+    this._errorImage = errorImage;
 
     this._likeStatus = this._checkMyLike();
     this._handleCardRemove = handleCardRemove;

@@ -10,7 +10,6 @@ export default class UserInfo {
       userName: this._userName.textContent,
       userAbout: this._userAbout.textContent,
       userAvatar: this._userAvatar.src,
-      userId: this._userId
     }
   }
 

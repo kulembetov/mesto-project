@@ -1,9 +1,11 @@
-import Popup from './Popup.js';
+import Popup from "./Popup.js";
 export default class PopupWithForm extends Popup {
   constructor(popupSelector, popupConfig, { submitCallbackForm }) {
     super(popupSelector, popupConfig);
-    this._formElement = this._popupItem.querySelector(popupConfig.popupFormSelector);
-    this._formInputs = this._formElement.querySelectorAll('.popup__input');
+    this._formElement = this._popupItem.querySelector(
+      popupConfig.popupFormSelector
+    );
+    this._formInputs = this._formElement.querySelectorAll(".popup__input");
     this._submitCallbackForm = submitCallbackForm;
   }
 
@@ -24,12 +26,17 @@ export default class PopupWithForm extends Popup {
     });
   }
 
-  // Установка слушателей
   setEventListeners() {
     super.setEventListeners();
-    this._formElement.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-      this._submitCallbackForm(this._getInputValues());
+
+    this._formElement.addEventListener("submit", (evt) => {
+      evt.preventDefault()
+      this._submitButton.textContent = this._submitButton.dataset.saving;
+      this._submitCallbackForm(this._getInputValues())
+        .then(() => this.closePopup())
+        .finally(() => {
+          this._submitButton.textContent = this._submitButton.dataset.save;
+        });
     });
   }
 

@@ -15,7 +15,8 @@ export default class PopupWithConfirmation extends Popup {
   // Установка слушателей
   setEventListeners() {
     super.setEventListeners();
-    this._formElement.addEventListener('submit', () => {
+    this._formElement.addEventListener('submit', (evt) => {
+      evt.preventDefault()
       this._submitCallbackForm(this._card)
     });
   }
