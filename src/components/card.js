@@ -26,8 +26,6 @@ export default class Card {
 
     this._userId = userId;
 
-    this._errorImage = errorImage;
-
     this._likeStatus = this._checkMyLike();
     this._handleCardRemove = handleCardRemove;
     this._handleCardClick = handleCardClick;
