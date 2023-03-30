@@ -86,8 +86,8 @@ export default class FormValidator {
 
   // Включение валидации и отключение стандартной браузерной
   enableValidation() {
-      this._setEventListeners();
-    }
+    this._setEventListeners();
+  }
 
   // Сброс валидации
   resetValidation() {

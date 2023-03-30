@@ -3,7 +3,9 @@ export default class Popup {
     this._popupItem = document.querySelector(popupSelector);
     this._popupOpenedClass = popupConfig.popupOpenedClass;
     this._popupCloseButtonClass = popupConfig.popupCloseButtonClass;
-    this._submitButton = this._popupItem.querySelector(popupConfig.popupSubmitButtonSelector)
+    this._submitButton = this._popupItem.querySelector(
+      popupConfig.popupSubmitButtonSelector
+    );
   }
 
   // Универсальное открытие и закрытие попапа при нажатии на крестик, ESC, оверлей
@@ -33,14 +35,5 @@ export default class Popup {
         this.closePopup(this._popupItem);
       }
     });
-  }
-
-  // Изменение состояния кнопки сабмита
-  renderLoading(isLoading) {
-    if (isLoading) {
-      this._submitButton.textContent = this._submitButton.dataset.saving;
-    } else {
-      this._submitButton.textContent = this._submitButton.dataset.save;
-    }
   }
 }
