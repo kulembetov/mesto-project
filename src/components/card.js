@@ -1,3 +1,5 @@
+import { errorImage } from '../utils/constants.js';
+
 export default class Card {
   constructor(
     data,
@@ -135,6 +137,9 @@ export default class Card {
 
     this._cardImage.addEventListener('click', () => {
       this._handleCardClick(this);
+    });
+    this._cardImage.addEventListener('error', () => {
+      this._cardImage.setAttribute('src', errorImage);
     });
   }
 }

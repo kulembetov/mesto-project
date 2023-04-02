@@ -32,19 +32,20 @@ const api = new Api({
   },
 });
 
-function createCard(userId, cardData) {
+const createCard = (userId, cardData) => {
   const newCard = new Card(
     cardData,
     cardSelectors,
     userId,
-    deleteCard,
-    likeEvent,
+    handleCardDelete,
+    handleLike,
     openImageZoomPopup
   );
   const cardElement = newCard.generate();
   return cardElement;
-}
+};
 
+// Экземпляр класса Section
 const cardSection = new Section(cardSelectors.cardsContainerSelector, {
   renderer: (userId, cardData) => createCard(userId, cardData),
 });
@@ -54,7 +55,7 @@ const imageZoomPopup = new PopupWithImage('#popup-image-zoom', popupConfig);
 imageZoomPopup.setEventListeners();
 
 // Экземпляр класса PopupWithConfirmation
-const confirmationDeletePopup = new PopupWithConfirmation(
+const confirmationPopup = new PopupWithConfirmation(
   '#popup-confirmation',
   popupConfig,
   {
@@ -62,14 +63,13 @@ const confirmationDeletePopup = new PopupWithConfirmation(
       try {
         const res = await api.removeCardRequest(card._cardId);
         card.removeCard(res);
-        confirmationDeletePopup.closePopup();
       } catch (err) {
         console.log(err);
       }
     },
   }
 );
-confirmationDeletePopup.setEventListeners();
+confirmationPopup.setEventListeners();
 
 // Экземпляр класса PopupWithForm
 const avatarPopup = new PopupWithForm('#popup-avatar', popupConfig, {
@@ -89,8 +89,8 @@ const profilePopup = new PopupWithForm('#popup-profile', popupConfig, {
   submitCallbackForm: async (formValues) => {
     try {
       const res = await api.setProfileRequest(
-        formValues.userName,
-        formValues.userAbout
+        formValues.name,
+        formValues.about
       );
       userInfo.setUserInfo(res.name, res.about);
     } catch (err) {
@@ -117,13 +117,22 @@ const imageAddPopup = new PopupWithForm('#popup-image-add', popupConfig, {
 });
 imageAddPopup.setEventListeners();
 
+// Экземпляр класса UserInfo
+const userInfo = new UserInfo(userConfig);
+
+// Экземпляры класса FormValidator
+const profileFormValidator = new FormValidator(settings, profileForm);
+const avatarFormValidator = new FormValidator(settings, avatarForm);
+const imageFormValidator = new FormValidator(settings, imageForm);
+
 // Удаление карточки
-const deleteCard = (card) => {
-  confirmationDeletePopup.openPopup();
-  confirmationDeletePopup.setCard(card);
+const handleCardDelete = (card) => {
+  confirmationPopup.openPopup();
+  confirmationPopup.setCard(card);
 };
 
-const likeEvent = (card) => {
+// Добавление и удаление лайка
+const handleLike = (card) => {
   if (card._likeStatus) {
     api
       .removeLikeRequest(card._cardId)
@@ -144,9 +153,6 @@ const likeEvent = (card) => {
       });
   }
 };
-
-// Экземпляр класса UserInfo
-const userInfo = new UserInfo(userConfig);
 
 // Отрисовка элементов на странице
 async function renderElements() {
@@ -196,6 +202,7 @@ avatarElement.addEventListener('error', () => {
 
 // Открытие попапа с открытым изображением
 const openImageZoomPopup = (card) => {
+  imageZoomPopup.handleErrorImage();
   imageZoomPopup.openPopup(card._title, card._link);
 };
 
@@ -205,11 +212,6 @@ forms.forEach((form) => {
   formValidators[form.id] = formValidator;
   formValidator.enableValidation();
 });
-
-// Экземпляры FormValidator
-const profileFormValidator = new FormValidator(settings, profileForm);
-const avatarFormValidator = new FormValidator(settings, avatarForm);
-const imageFormValidator = new FormValidator(settings, imageForm);
 
 // Включение валидации для форм
 profileFormValidator.enableValidation(settings);

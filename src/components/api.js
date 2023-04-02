@@ -24,24 +24,24 @@ export default class Api {
   }
 
   // Изменение данных профиля
-  setProfileRequest(nameInput, aboutInput) {
+  setProfileRequest(name, about) {
     return this._request(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
-        name: nameInput,
-        about: aboutInput,
+        name: name,
+        about: about,
       }),
     });
   }
 
   // Обновление изображения профиля
-  changeAvatarRequest(linkInput) {
+  changeAvatarRequest(link) {
     return this._request(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
-        avatar: linkInput,
+        avatar: link,
       }),
     });
   }
@@ -55,13 +55,13 @@ export default class Api {
   }
 
   // Добавление карточек
-  addCardRequest(titleInput, linkInput) {
+  addCardRequest(title, link) {
     return this._request(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
-        name: titleInput,
-        link: linkInput,
+        name: title,
+        link: link,
       }),
     });
   }

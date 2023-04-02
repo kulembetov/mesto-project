@@ -1,4 +1,7 @@
 import Popup from './Popup.js';
+import {
+  errorImage,
+} from '../utils/constants.js';
 
 export default class PopupWithImage extends Popup {
   constructor(popupSelector, popupConfig) {
@@ -7,11 +10,18 @@ export default class PopupWithImage extends Popup {
     this._caption = document.querySelector(popupConfig.popupCaptionSelector);
   }
 
+  // Добавление изображения с ошибкой
+  handleErrorImage() {
+    this._image.addEventListener('error', () => {
+      this._image.setAttribute('src', errorImage);
+    });
+  }
+
   // Открытие попапа
-  openPopup(name, link) {
+  openPopup(title, link) {
     super.openPopup();
+    this._caption.textContent = title;
     this._image.src = link;
-    this._image.alt = name;
-    this._caption.textContent = name;
+    this._image.alt = title;
   }
 }

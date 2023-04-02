@@ -51,11 +51,6 @@ const profileForm = document.forms.profile;
 const imageForm = document.forms.image;
 const avatarForm = document.forms.avatar;
 
-// Инпуты
-const nameInput = profileForm.elements.name;
-const aboutInput = profileForm.elements.about;
-const titleInput = imageForm.elements.title;
-
 // Элементы профиля
 const avatarElement = document.querySelector('.profile__avatar');
 const nameElement = document.querySelector('.profile__name');
@@ -75,9 +70,6 @@ export {
   profileForm,
   imageForm,
   avatarForm,
-  nameInput,
-  aboutInput,
-  titleInput,
   avatarElement,
   nameElement,
   aboutElement,
