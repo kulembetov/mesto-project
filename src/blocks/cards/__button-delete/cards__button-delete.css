@@ -1,7 +1,7 @@
-.cards__button-cart {
+.cards__button-delete {
   width: 18px;
   height: 19px;
-  background-image: url("../../../images/cart.svg");
+  background-image: url("../../../images/delete.svg");
   background-color: transparent;
   background-repeat: no-repeat;
   background-size: contain;
@@ -14,6 +14,6 @@
   transition: all 0.3s ease-in-out;
 }
 
-.cards__button-cart:hover {
+.cards__button-delete:hover {
   opacity: 0.6;
 }
